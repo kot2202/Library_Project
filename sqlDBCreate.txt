@@ -1,0 +1,33 @@
+CREATE DATABASE library_project
+GO
+USE library_project
+
+CREATE TABLE [Czytelnicy] (
+  [id_czytelnika] int IDENTITY(1,1) NOT NULL,
+  [czytelnik_imie] varchar(20) NOT NULL,
+  [czytelnik_nazwisko] varchar(20) NOT NULL,
+  PRIMARY KEY ([id_czytelnika])
+);
+
+CREATE TABLE [Ksiazki] (
+  [id_ksiazki] int IDENTITY(1,1) NOT NULL,
+  [nazwa] varchar(50) NOT NULL,
+  [autor_imie] varchar(20) NOT NULL,
+  [autor_nazwisko] varchar(20) NOT NULL,
+  [ilosc_ksiazek] int NOT NULL,
+  PRIMARY KEY ([id_ksiazki])
+);
+
+CREATE TABLE [Wypozyczenia] (
+  [id_wypozyczenia] int IDENTITY(1,1) NOT NULL,
+  [id_czytelnika] int NOT NULL,
+  [id_ksiazki] int NOT NULL,
+  [data_wypozyczenia_od] datetime NOT NULL,
+  PRIMARY KEY ([id_wypozyczenia]),
+  CONSTRAINT [FK_Wypozyczenia.id_wypozyczenia]
+    FOREIGN KEY ([id_wypozyczenia])
+      REFERENCES [Czytelnicy]([id_czytelnika]),
+  CONSTRAINT [FK_Wypozyczenia.id_ksiazki]
+    FOREIGN KEY ([id_ksiazki])
+      REFERENCES [Ksiazki]([id_ksiazki])
+);
