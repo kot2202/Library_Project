@@ -33,6 +33,7 @@ namespace Library_Project
             const string menuShowBookHead = "Dostępne książki:";
 
             /// Rent Book Menu///
+            ConsoleColor menuBookRentColor = questionTextColor;
             const string menuBookRentBody = "Podaj część tytułu książki, jeśli jest dostępna, zostanie Ci wypożyczona";
 
             //////////////////////////////////////////////
@@ -46,9 +47,6 @@ namespace Library_Project
             ushort wybor;
             string komenda;
 
-            List<data.Ksiazki> currentlyAvailableBooks = new List<data.Ksiazki>();
-            //library_projectEntities lb = new library_projectEntities();
-
             while (true)
             {
                 Console.ForegroundColor = generalTextColor;
@@ -60,13 +58,6 @@ namespace Library_Project
                 switch (wybor)
                 {
                     case 1:
-                        //currentlyAvailableBooks = libraryRepo.GetBooks();
-                        //for(int i = 0;i < currentlyAvailableBooks.Count;i++)
-                        //{
-                        //    Console.WriteLine($"{currentlyAvailableBooks[i].nazwa} {currentlyAvailableBooks[i].autor_imie} {currentlyAvailableBooks[i].autor_nazwisko} {currentlyAvailableBooks[i].ilosc_ksiazek}" ); 
-                        //}
-                        //Console.WriteLine(Environment.NewLine);
-
                         Console.WriteLine(menuShowBookHead);
                         Console.ForegroundColor = menuShowBookTextColor;
                         libraryRepo.ShowBooks();
@@ -74,6 +65,7 @@ namespace Library_Project
 
                         break;
                     case 2:
+                        Console.ForegroundColor = menuBookRentColor;
                         Console.WriteLine(menuBookRentBody);
                         komenda = Console.ReadLine();
                         var ksiazki = libraryRepo.GetBooksWithName(komenda);
