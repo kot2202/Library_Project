@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="library_projectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Czytelnicy">
+          <Key>
+            <PropertyRef Name="id_czytelnika" />
+          </Key>
+          <Property Name="id_czytelnika" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="czytelnik_imie" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="czytelnik_nazwisko" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ksiazki">
+          <Key>
+            <PropertyRef Name="id_ksiazki" />
+          </Key>
+          <Property Name="id_ksiazki" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nazwa" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="autor_imie" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="autor_nazwisko" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ilosc_ksiazek" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Wypozyczenia">
+          <Key>
+            <PropertyRef Name="id_wypozyczenia" />
+          </Key>
+          <Property Name="id_wypozyczenia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_czytelnika" Type="int" Nullable="false" />
+          <Property Name="id_ksiazki" Type="int" Nullable="false" />
+          <Property Name="aktywne" Type="int" Nullable="false" />
+          <Property Name="data_wypozyczenia_od" Type="datetime" Nullable="false" />
+          <Property Name="data_ostatni_update" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_Wypozyczenia_id_ksiazki">
+          <End Role="Ksiazki" Type="Self.Ksiazki" Multiplicity="1" />
+          <End Role="Wypozyczenia" Type="Self.Wypozyczenia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ksiazki">
+              <PropertyRef Name="id_ksiazki" />
+            </Principal>
+            <Dependent Role="Wypozyczenia">
+              <PropertyRef Name="id_ksiazki" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wypozyczenia_id_wypozyczenia">
+          <End Role="Czytelnicy" Type="Self.Czytelnicy" Multiplicity="1" />
+          <End Role="Wypozyczenia" Type="Self.Wypozyczenia" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Czytelnicy">
+              <PropertyRef Name="id_czytelnika" />
+            </Principal>
+            <Dependent Role="Wypozyczenia">
+              <PropertyRef Name="id_wypozyczenia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="library_projectModelStoreContainer">
+          <EntitySet Name="Czytelnicy" EntityType="Self.Czytelnicy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ksiazki" EntityType="Self.Ksiazki" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wypozyczenia" EntityType="Self.Wypozyczenia" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Wypozyczenia_id_ksiazki" Association="Self.FK_Wypozyczenia_id_ksiazki">
+            <End Role="Ksiazki" EntitySet="Ksiazki" />
+            <End Role="Wypozyczenia" EntitySet="Wypozyczenia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wypozyczenia_id_wypozyczenia" Association="Self.FK_Wypozyczenia_id_wypozyczenia">
+            <End Role="Czytelnicy" EntitySet="Czytelnicy" />
+            <End Role="Wypozyczenia" EntitySet="Wypozyczenia" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="library_projectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Czytelnicy">
+          <Key>
+            <PropertyRef Name="id_czytelnika" />
+          </Key>
+          <Property Name="id_czytelnika" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="czytelnik_imie" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="czytelnik_nazwisko" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Wypozyczenia" Relationship="Self.FK_Wypozyczenia_id_wypozyczenia" FromRole="Czytelnicy" ToRole="Wypozyczenia" />
+        </EntityType>
+        <EntityType Name="Ksiazki">
+          <Key>
+            <PropertyRef Name="id_ksiazki" />
+          </Key>
+          <Property Name="id_ksiazki" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazwa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="autor_imie" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="autor_nazwisko" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ilosc_ksiazek" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Wypozyczenia" Relationship="Self.FK_Wypozyczenia_id_ksiazki" FromRole="Ksiazki" ToRole="Wypozyczenia" />
+        </EntityType>
+        <EntityType Name="Wypozyczenia">
+          <Key>
+            <PropertyRef Name="id_wypozyczenia" />
+          </Key>
+          <Property Name="id_wypozyczenia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_czytelnika" Type="Int32" Nullable="false" />
+          <Property Name="id_ksiazki" Type="Int32" Nullable="false" />
+          <Property Name="aktywne" Type="Int32" Nullable="false" />
+          <Property Name="data_wypozyczenia_od" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="data_ostatni_update" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Czytelnicy" Relationship="Self.FK_Wypozyczenia_id_wypozyczenia" FromRole="Wypozyczenia" ToRole="Czytelnicy" />
+          <NavigationProperty Name="Ksiazki" Relationship="Self.FK_Wypozyczenia_id_ksiazki" FromRole="Wypozyczenia" ToRole="Ksiazki" />
+        </EntityType>
+        <Association Name="FK_Wypozyczenia_id_wypozyczenia">
+          <End Role="Czytelnicy" Type="Self.Czytelnicy" Multiplicity="1" />
+          <End Role="Wypozyczenia" Type="Self.Wypozyczenia" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Czytelnicy">
+              <PropertyRef Name="id_czytelnika" />
+            </Principal>
+            <Dependent Role="Wypozyczenia">
+              <PropertyRef Name="id_wypozyczenia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wypozyczenia_id_ksiazki">
+          <End Role="Ksiazki" Type="Self.Ksiazki" Multiplicity="1" />
+          <End Role="Wypozyczenia" Type="Self.Wypozyczenia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ksiazki">
+              <PropertyRef Name="id_ksiazki" />
+            </Principal>
+            <Dependent Role="Wypozyczenia">
+              <PropertyRef Name="id_ksiazki" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="library_projectEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Czytelnicy" EntityType="Self.Czytelnicy" />
+          <EntitySet Name="Ksiazki" EntityType="Self.Ksiazki" />
+          <EntitySet Name="Wypozyczenia" EntityType="Self.Wypozyczenia" />
+          <AssociationSet Name="FK_Wypozyczenia_id_wypozyczenia" Association="Self.FK_Wypozyczenia_id_wypozyczenia">
+            <End Role="Czytelnicy" EntitySet="Czytelnicy" />
+            <End Role="Wypozyczenia" EntitySet="Wypozyczenia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wypozyczenia_id_ksiazki" Association="Self.FK_Wypozyczenia_id_ksiazki">
+            <End Role="Ksiazki" EntitySet="Ksiazki" />
+            <End Role="Wypozyczenia" EntitySet="Wypozyczenia" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="library_projectModelStoreContainer" CdmEntityContainer="library_projectEntities">
+          <EntitySetMapping Name="Czytelnicy">
+            <EntityTypeMapping TypeName="library_projectModel.Czytelnicy">
+              <MappingFragment StoreEntitySet="Czytelnicy">
+                <ScalarProperty Name="id_czytelnika" ColumnName="id_czytelnika" />
+                <ScalarProperty Name="czytelnik_imie" ColumnName="czytelnik_imie" />
+                <ScalarProperty Name="czytelnik_nazwisko" ColumnName="czytelnik_nazwisko" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ksiazki">
+            <EntityTypeMapping TypeName="library_projectModel.Ksiazki">
+              <MappingFragment StoreEntitySet="Ksiazki">
+                <ScalarProperty Name="id_ksiazki" ColumnName="id_ksiazki" />
+                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+                <ScalarProperty Name="autor_imie" ColumnName="autor_imie" />
+                <ScalarProperty Name="autor_nazwisko" ColumnName="autor_nazwisko" />
+                <ScalarProperty Name="ilosc_ksiazek" ColumnName="ilosc_ksiazek" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wypozyczenia">
+            <EntityTypeMapping TypeName="library_projectModel.Wypozyczenia">
+              <MappingFragment StoreEntitySet="Wypozyczenia">
+                <ScalarProperty Name="id_wypozyczenia" ColumnName="id_wypozyczenia" />
+                <ScalarProperty Name="id_czytelnika" ColumnName="id_czytelnika" />
+                <ScalarProperty Name="id_ksiazki" ColumnName="id_ksiazki" />
+                <ScalarProperty Name="aktywne" ColumnName="aktywne" />
+                <ScalarProperty Name="data_wypozyczenia_od" ColumnName="data_wypozyczenia_od" />
+                <ScalarProperty Name="data_ostatni_update" ColumnName="data_ostatni_update" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
