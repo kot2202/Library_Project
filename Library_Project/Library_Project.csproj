@@ -52,16 +52,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="data\Czytelnicy.cs">
+      <DependentUpon>LibraryDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="data\Ksiazki.cs">
+      <DependentUpon>LibraryDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="data\LibraryDBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LibraryDBModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="data\LibraryDBModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LibraryDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="data\LibraryDBModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LibraryDBModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="data\Wypozyczenia.cs">
+      <DependentUpon>LibraryDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LibraryRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -81,6 +96,12 @@
     <Content Include="data\LibraryDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>LibraryDBModel.Context.cs</LastGenOutput>
+      <DependentUpon>LibraryDBModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="data\LibraryDBModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LibraryDBModel.edmx</DependentUpon>
+      <LastGenOutput>LibraryDBModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
