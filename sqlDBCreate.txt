@@ -22,7 +22,9 @@ CREATE TABLE [Wypozyczenia] (
   [id_wypozyczenia] int IDENTITY(1,1) NOT NULL,
   [id_czytelnika] int NOT NULL,
   [id_ksiazki] int NOT NULL,
+  [aktywne] int NOT NULL,
   [data_wypozyczenia_od] datetime NOT NULL,
+  [data_ostatni_update] datetime
   PRIMARY KEY ([id_wypozyczenia]),
   CONSTRAINT [FK_Wypozyczenia.id_wypozyczenia]
     FOREIGN KEY ([id_wypozyczenia])
