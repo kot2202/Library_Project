@@ -90,14 +90,13 @@ namespace Library_Project
                                     libraryRepo.ReduceBook(ksiazki[nrKsiazki].id_ksiazki);
                                     Console.ForegroundColor = informationTextColor;
                                     Console.WriteLine($"Czytelnik ID Wypożyczył {ksiazki[nrKsiazki].nazwa} {ksiazki[nrKsiazki].autor_imie} {ksiazki[nrKsiazki].autor_nazwisko}"); // TODO dodac wpisywanie id czytelnika przed wypozyczeniem
-                                    goto default;
                                 }
                                 else
                                 {
                                     Console.ForegroundColor = errorTextColor;
                                     Console.WriteLine("Niestety na stanie jest 0 tych książek");
-                                    goto default;
                                 }
+                                goto default; // używanie goto to ostatecznosc
                             }
                         }
                         Console.ForegroundColor = errorTextColor;
