@@ -2,3 +2,4 @@ use library_project
 INSERT INTO Ksiazki VALUES('Dziady cz I', 'Adam', 'Mickiewicz',1)
 INSERT INTO Ksiazki VALUES('Dziady cz II', 'Adam', 'Mickiewicz',2)
 INSERT INTO Ksiazki VALUES('Dziady cz III', 'Adam', 'Mickiewicz',3)
+INSERT INTO Ksiazki VALUES('ĄŚĆŹŻ', 'Jan', 'Test',4)

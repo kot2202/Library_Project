@@ -1,4 +1,4 @@
-CREATE DATABASE library_project
+CREATE DATABASE library_project COLLATE POLISH_CI_AI
 GO
 USE library_project
 
