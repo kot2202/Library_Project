@@ -14,9 +14,17 @@ namespace Library_Project.data
     
     public partial class Czytelnicy
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Czytelnicy()
+        {
+            this.Wypozyczenia = new HashSet<Wypozyczenia>();
+        }
+    
         public int id_czytelnika { get; set; }
         public string czytelnik_imie { get; set; }
         public string czytelnik_nazwisko { get; set; }
+        public string czytelnik_adres { get; set; }
+        public string czytelnik_pesel { get; set; }
 
         /// <summary>
         /// Zwraca pelne info o czytelniku
@@ -24,10 +32,11 @@ namespace Library_Project.data
         public string GetInfo()
         {
             string info = string.Empty;
-            info = $"{czytelnik_imie} {czytelnik_nazwisko}"; //TODO dodac nr tel
+            info = $"{czytelnik_imie} {czytelnik_nazwisko} {czytelnik_adres} {czytelnik_pesel}";
             return info;
         }
-
-        public virtual Wypozyczenia Wypozyczenia { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wypozyczenia> Wypozyczenia { get; set; }
     }
 }

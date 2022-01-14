@@ -62,6 +62,23 @@ namespace Library_Project
         public void RentBook(int idKsiazki, int idCzytelnika)
         {
             Console.WriteLine($"ksiazka:{idKsiazki} czytelnik:{idCzytelnika}");
+            ReduceBook(idKsiazki);
+
+
+            data.Wypozyczenia noweWypozyczenie = new data.Wypozyczenia
+            {
+                id_czytelnika = idCzytelnika,
+                id_ksiazki = idKsiazki,
+                aktywne = 1,
+                data_wypozyczenia_od = DateTime.Now,
+                data_ostatni_update = DateTime.Now
+            };
+
+            using (var libraryDb = new data.library_projectEntities())
+            {
+                libraryDb.Wypozyczenia.Add(noweWypozyczenie);
+                libraryDb.SaveChanges();
+            }
         }
     }
 }

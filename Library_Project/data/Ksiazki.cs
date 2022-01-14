@@ -25,6 +25,7 @@ namespace Library_Project.data
         public string autor_imie { get; set; }
         public string autor_nazwisko { get; set; }
         public int ilosc_ksiazek { get; set; }
+
         /// <summary>
         /// Zwraca nazwa ksiazki, info o autorze + ilosc
         /// </summary>
@@ -33,13 +34,13 @@ namespace Library_Project.data
         {
             string info = string.Empty;
             info = $"{nazwa} {autor_imie} {autor_nazwisko}";
-            if(option != 0)
+            if (option != 0)
             {
-                info += $" Iloœæ: {ilosc_ksiazek}";
+                info += $" Ilosc: {ilosc_ksiazek}";
             }
             return info;
         }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wypozyczenia> Wypozyczenia { get; set; }
     }
