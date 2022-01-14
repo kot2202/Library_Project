@@ -69,7 +69,7 @@ namespace Library_Project
                         Console.WriteLine(menuBookRentBody);
                         komenda = Console.ReadLine();
                         var ksiazki = libraryRepo.GetBooksWithName(komenda);
-                        int nrKsiazki;
+
                         if (ksiazki.Count == 0)
                         {
                             Console.ForegroundColor = errorTextColor;
@@ -77,7 +77,7 @@ namespace Library_Project
                             Console.ForegroundColor = generalTextColor;
                             break;
                         }
-                        for (nrKsiazki = 0; nrKsiazki < ksiazki.Count; nrKsiazki++)
+                        for (int nrKsiazki = 0; nrKsiazki < ksiazki.Count; nrKsiazki++)
                         {
                             Console.ForegroundColor = questionTextColor;
                             Console.WriteLine($"Czy chodzi o {ksiazki[nrKsiazki].GetInfo()}?\nT/N");
@@ -87,9 +87,31 @@ namespace Library_Project
                             {
                                 if (ksiazki[nrKsiazki].ilosc_ksiazek > 0)
                                 {
-                                    libraryRepo.ReduceBook(ksiazki[nrKsiazki].id_ksiazki);
-                                    Console.ForegroundColor = informationTextColor;
-                                    Console.WriteLine($"Czytelnik ID Wypożyczył {ksiazki[nrKsiazki].GetInfo()}"); // TODO dodac wpisywanie id czytelnika przed wypozyczeniem
+                                    Console.ForegroundColor = questionTextColor;
+                                    Console.WriteLine("Podaj imie / nazwisko czytelnika"); // TODO dodac nr tel
+
+                                    komenda = Console.ReadLine();
+                                    var czytelnicy = libraryRepo.GetReadersWithName(komenda);
+                                    if(czytelnicy.Count == 0)
+                                    {
+                                        Console.ForegroundColor = errorTextColor;
+                                        Console.WriteLine("Nie znaleziono czytelnika");
+                                        Console.ForegroundColor = generalTextColor;
+                                        goto default; // używanie goto to ostatecznosc
+                                    }
+                                    else
+                                    {
+                                        for (int nrCzytelnika = 0; nrCzytelnika < czytelnicy.Count; nrCzytelnika++)
+                                        {
+                                            Console.ForegroundColor = questionTextColor;
+                                            Console.WriteLine($"Czy chodzi o {czytelnicy[nrCzytelnika].GetInfo()}?\nT/N");
+                                            komenda = Console.ReadLine();
+                                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase)) // dobry czytelnik, dobra ksiazka wczytujemy ich id
+                                            {
+                                                libraryRepo.RentBook(ksiazki[nrKsiazki].id_ksiazki, czytelnicy[nrCzytelnika].id_czytelnika);
+                                            }
+                                        }
+                                    }
                                 }
                                 else
                                 {

@@ -25,15 +25,24 @@ namespace Library_Project
             }
         }
 
+        public List<data.Czytelnicy>GetReadersWithName(string readerInfo)
+        {
+            using (var libraryDb = new data.library_projectEntities())
+            {
+                return libraryDb.Czytelnicy.Where(x => x.czytelnik_imie.Contains(readerInfo)
+                                                    || x.czytelnik_nazwisko.Contains(readerInfo)).ToList(); // TODO dodac cos do rozroznienia czytelnikow o tym samym imieniu i nazwisku
+            }
+        }
+
         public List<data.Ksiazki> GetBooksWithName(string bookName) // TODO moze powinno usuwac znaki diakrytyczne dla prostszego wyszukiwania
         {
             using (var libraryDb = new data.library_projectEntities())
             {
-                return libraryDb.Ksiazki.Where(x => x.nazwa.Contains(bookName)).ToList(); // wiele ksiazek moze miec podobne nazwy TODO iteracja po nich
+                return libraryDb.Ksiazki.Where(x => x.nazwa.Contains(bookName)).ToList();
             }
         }
 
-        public void ReduceBook(int idKsiazki)
+        private void ReduceBook(int idKsiazki)
         {
             using (var libraryDb = new data.library_projectEntities())
             {
@@ -45,6 +54,14 @@ namespace Library_Project
                     Console.WriteLine("TODO: DODAJ REKORD DO TABELI WYPOZYCZENIA"); // TODO
                 }
             }
+        }
+
+        /// <summary>
+        /// Redukuje ksiazki, dodaje rekord do wypozyczen
+        /// </summary>
+        public void RentBook(int idKsiazki, int idCzytelnika)
+        {
+            Console.WriteLine($"ksiazka:{idKsiazki} czytelnik:{idCzytelnika}");
         }
     }
 }

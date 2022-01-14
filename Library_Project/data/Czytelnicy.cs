@@ -17,7 +17,17 @@ namespace Library_Project.data
         public int id_czytelnika { get; set; }
         public string czytelnik_imie { get; set; }
         public string czytelnik_nazwisko { get; set; }
-    
+
+        /// <summary>
+        /// Zwraca pelne info o czytelniku
+        /// </summary>
+        public string GetInfo()
+        {
+            string info = string.Empty;
+            info = $"{czytelnik_imie} {czytelnik_nazwisko}"; //TODO dodac nr tel
+            return info;
+        }
+
         public virtual Wypozyczenia Wypozyczenia { get; set; }
     }
 }
