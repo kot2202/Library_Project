@@ -95,7 +95,7 @@ namespace Library_Project
                                 if (ksiazki[nrKsiazki].ilosc_ksiazek > 0)
                                 {
                                     Console.ForegroundColor = questionTextColor;
-                                    Console.WriteLine("Podaj imie / nazwisko czytelnika"); // TODO dodac nr tel
+                                    Console.WriteLine("Podaj imie / nazwisko czytelnika");
 
                                     komenda = Console.ReadLine();
                                     var czytelnicy = libraryRepo.GetReadersWithName(komenda);

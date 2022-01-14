@@ -31,7 +31,7 @@ namespace Library_Project
             using (var libraryDb = new data.library_projectEntities())
             {
                 return libraryDb.Czytelnicy.Where(x => x.czytelnik_imie.Contains(readerInfo)
-                                                    || x.czytelnik_nazwisko.Contains(readerInfo)).ToList(); // TODO dodac cos do rozroznienia czytelnikow o tym samym imieniu i nazwisku
+                                                    || x.czytelnik_nazwisko.Contains(readerInfo)).ToList();
             }
         }
 
