@@ -3,3 +3,6 @@ INSERT INTO Ksiazki VALUES('Dziady cz I', 'Adam', 'Mickiewicz',1)
 INSERT INTO Ksiazki VALUES('Dziady cz II', 'Adam', 'Mickiewicz',2)
 INSERT INTO Ksiazki VALUES('Dziady cz III', 'Adam', 'Mickiewicz',3)
 INSERT INTO Ksiazki VALUES('ĄŚĆŹŻ', 'Jan', 'Test',4)
+
+INSERT INTO Czytelnicy VALUES('Adam', 'Nowak', 'AdresNowak', '11111111111')
+INSERT INTO Czytelnicy VALUES('Jan', 'Kowalski', 'KowalskiAdres', '22222222222')
