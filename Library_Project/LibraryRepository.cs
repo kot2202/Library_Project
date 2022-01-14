@@ -26,6 +26,19 @@ namespace Library_Project
             }
         }
 
+        public List<data.Wypozyczenia> GetRents()
+        {
+            using (var libraryDb = new data.library_projectEntities())
+            {
+                List<data.Wypozyczenia> wypozyczenia = libraryDb.Wypozyczenia.Where(x => x.aktywne == 1).ToList(); // moze zwrocic pusta liste TODO obsluga wyjatkow
+                wypozyczenia.ForEach(x => x.data_ostatni_update = DateTime.Now);
+                libraryDb.SaveChanges();
+                return wypozyczenia;
+
+            }
+
+        }
+
         public List<data.Czytelnicy>GetReadersWithName(string readerInfo)
         {
             using (var libraryDb = new data.library_projectEntities())

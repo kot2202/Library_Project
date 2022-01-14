@@ -14,6 +14,8 @@ namespace Library_Project
             #region settings
             ////////////////// SETTINGS //////////////////
 
+            Console.Title = "Library Project";
+
             /// General Colors ///
             ConsoleColor generalTextColor = ConsoleColor.White;
             ConsoleColor errorTextColor = ConsoleColor.Red;
@@ -21,12 +23,14 @@ namespace Library_Project
             ConsoleColor informationTextColor = ConsoleColor.Green;
             Console.ForegroundColor = generalTextColor; // TODO: https://stackoverflow.com/a/34866857
 
-            Console.Title = "Library Project";
+            
             const string menuLoopTextHead = "Wybierz opcję i zatwierdź przy użyciu <ENTER>\n";
             const string menuLoopTextBody = "1. Wyświetl stan książek\n" +
-                                            "2. Wypożycz książkę\n" +
-                                            "3. Dodaj książkę\n" +
-                                            "4. Usuń książkę";
+                                            "2. Sprawdź stan wypożyczeń\n" +
+                                            "3. Wypożycz książkę\n" +
+                                            "4. Zwróć wypożyczoną książkę\n" +
+                                            "5. Dodaj nową książkę\n" +
+                                            "6. Usuń dodaną książkę";
 
             /// Show Books Menu ///
             ConsoleColor menuShowBookTextColor = informationTextColor;
@@ -35,6 +39,9 @@ namespace Library_Project
             /// Rent Book Menu ///
             ConsoleColor menuBookRentColor = questionTextColor;
             const string menuBookRentBody = "Podaj część tytułu książki, jeśli jest dostępna, zostanie wypożyczona";
+
+            int daysWithoutReturnWarningMedium = 14;
+            int daysWithoutReturnWarningImportant = 30;
 
             /// Add Book Menu ///
             ConsoleColor menuAddBookColor = questionTextColor;
@@ -47,6 +54,9 @@ namespace Library_Project
             //////////////////////////////////////////////
             
             // TODO dodac wychodzenie z zapetlonego menu
+
+            // TODO dodac publiczna klase z ustawieniami m.in. kolorków, żeby LibraryRepository moglo korzystac z kolorkow,
+            // wtedy bedzie mniej syfu w Program
 
             LibraryRepository libraryRepo = new LibraryRepository();
             ushort wybor;
@@ -63,14 +73,30 @@ namespace Library_Project
                 switch (wybor)
                 {
                     case 1:
+                    #region Stan ksiazek
                         Console.WriteLine(menuShowBookHead);
                         Console.ForegroundColor = menuShowBookTextColor;
                         libraryRepo.ShowBooks();
                         Console.ForegroundColor = generalTextColor;
-
                         break;
+                    #endregion
                     case 2:
-                    #region opcja2
+                    #region Stan wypozyczen
+                        List<data.Wypozyczenia> listaWypozyczen = libraryRepo.GetRents(); // moze zwrocic pusta liste TODO obsluga wyjatkow
+                        for(int i = 0; i < listaWypozyczen.Count; i++)
+                        {
+                            double roznicaDni = (listaWypozyczen[i].data_wypozyczenia_od - DateTime.Now).TotalDays;
+                            roznicaDni = Math.Abs(roznicaDni);  //Math.Abs bo zwraca wartosci ujemne dla starych dat
+
+                            if (roznicaDni > daysWithoutReturnWarningImportant) { Console.ForegroundColor = ConsoleColor.Red; }
+                            else if (roznicaDni > daysWithoutReturnWarningMedium) { Console.ForegroundColor = ConsoleColor.Yellow; }
+                            else { Console.ForegroundColor = ConsoleColor.Green; }
+                            Console.WriteLine($"{listaWypozyczen[i].id_czytelnika} {listaWypozyczen[i].id_ksiazki} {listaWypozyczen[i].data_wypozyczenia_od}");
+                        }
+                        break;
+                    #endregion
+                    case 3:
+                    #region Wypozycz ksiazke
                         // TODO jakos zamknac to w metodzie
                         Console.ForegroundColor = menuBookRentColor;
                         Console.WriteLine(menuBookRentBody);
@@ -99,7 +125,7 @@ namespace Library_Project
 
                                     komenda = Console.ReadLine();
                                     var czytelnicy = libraryRepo.GetReadersWithName(komenda);
-                                    if(czytelnicy.Count == 0)
+                                    if (czytelnicy.Count == 0)
                                     {
                                         Console.ForegroundColor = errorTextColor;
                                         Console.WriteLine("Nie znaleziono czytelnika");
@@ -132,10 +158,13 @@ namespace Library_Project
                         Console.WriteLine("Nie ma na stanie więcej książek o tej nazwie");
                         break;
                     #endregion
-                    case 3:
+                    case 4:
+                        throw new NotImplementedException();
+                    case 5:
+                    #region Dodaj nowa ksiazke
                         data.Ksiazki nowaKsiazka = new data.Ksiazki();
                         komenda = "n";
-                        while(komenda != "t")
+                        while (komenda != "t")
                         {
                             Console.ForegroundColor = menuAddBookColor;
                             Console.WriteLine("Podaj nazwę książki którą chcesz dodać:");
@@ -154,14 +183,15 @@ namespace Library_Project
                             Console.ForegroundColor = menuAddBookColor;
                             Console.WriteLine("Czy wygląda poprawnie?\nT/N");
                             komenda = Console.ReadLine();
-                            if(String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase))
+                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase))
                             {
                                 libraryRepo.AddNewBook(nowaKsiazka);
                             }
                         }
                         break;
-                    case 4:
-                        break;
+                    #endregion
+                    case 6:
+                        throw new NotImplementedException();
                     default:
                         break;
                 }
