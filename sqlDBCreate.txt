@@ -6,6 +6,8 @@ CREATE TABLE [Czytelnicy] (
   [id_czytelnika] int IDENTITY(1,1) NOT NULL,
   [czytelnik_imie] varchar(20) NOT NULL,
   [czytelnik_nazwisko] varchar(20) NOT NULL,
+  [czytelnik_adres] varchar(50) NOT NULL,
+  [czytelnik_pesel] varchar(11) NOT NULL,
   PRIMARY KEY ([id_czytelnika])
 );
 
@@ -23,11 +25,11 @@ CREATE TABLE [Wypozyczenia] (
   [id_czytelnika] int NOT NULL,
   [id_ksiazki] int NOT NULL,
   [aktywne] int NOT NULL,
-  [data_wypozyczenia_od] datetime NOT NULL,
-  [data_ostatni_update] datetime
+  [data_wypozyczenia_od] smalldatetime NOT NULL,
+  [data_ostatni_update] smalldatetime,
   PRIMARY KEY ([id_wypozyczenia]),
-  CONSTRAINT [FK_Wypozyczenia.id_wypozyczenia]
-    FOREIGN KEY ([id_wypozyczenia])
+  CONSTRAINT [FK_Wypozyczenia.id_czytelnika]
+    FOREIGN KEY ([id_czytelnika])
       REFERENCES [Czytelnicy]([id_czytelnika]),
   CONSTRAINT [FK_Wypozyczenia.id_ksiazki]
     FOREIGN KEY ([id_ksiazki])
