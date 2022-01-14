@@ -34,7 +34,7 @@ namespace Library_Project
 
             /// Rent Book Menu ///
             ConsoleColor menuBookRentColor = questionTextColor;
-            const string menuBookRentBody = "Podaj część tytułu książki, jeśli jest dostępna, zostanie Ci wypożyczona";
+            const string menuBookRentBody = "Podaj część tytułu książki, jeśli jest dostępna, zostanie wypożyczona";
 
             /// Add Book Menu ///
             ConsoleColor menuAddBookColor = questionTextColor;
