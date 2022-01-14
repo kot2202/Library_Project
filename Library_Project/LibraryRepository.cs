@@ -16,6 +16,7 @@ namespace Library_Project
             }
         }
 
+        // moze zamiast tej metody robic petle bezposrednio w program
         public void ShowBooks()
         {
             var aktualnaListaKsiazek = GetBooks();
@@ -52,6 +53,15 @@ namespace Library_Project
                     ksiazkaDoZredukowania.ilosc_ksiazek = ksiazkaDoZredukowania.ilosc_ksiazek - 1;
                     libraryDb.SaveChanges();
                 }
+            }
+        }
+
+        public void AddNewBook(data.Ksiazki ksiazkaDoDodania)
+        {
+            using (var libraryDb = new data.library_projectEntities())
+            {
+                libraryDb.Ksiazki.Add(ksiazkaDoDodania); // TODO dodac obsluge wyjatkow, uzytkownik mogl naklepac wiecej znakow niz pozwala kolumna
+                libraryDb.SaveChanges();
             }
         }
 

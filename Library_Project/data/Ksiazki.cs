@@ -29,12 +29,19 @@ namespace Library_Project.data
         /// <summary>
         /// Zwraca nazwa ksiazki, info o autorze + ilosc
         /// </summary>
-        /// <param name="option">0/null = bez ilosci 1 = z iloscia</param>
-        public string GetInfo(int option = 0)
+        /// <param name="includeQuantity">0/null = bez ilosci 1 = z iloscia</param>
+        public string GetInfo(int includeQuantity = 0, int format = 0)
         {
             string info = string.Empty;
-            info = $"{nazwa} {autor_imie} {autor_nazwisko}";
-            if (option != 0)
+            if(format == 0)
+            {
+                info = $"{nazwa} {autor_imie} {autor_nazwisko}";
+            }
+            else
+            {
+                info = $"Nazwa: {nazwa}\nImie: {autor_imie}\nNazwisko:{autor_nazwisko}\nIlosc:{ilosc_ksiazek}";
+            }
+            if (includeQuantity != 0 && format == 0)
             {
                 info += $" Ilosc: {ilosc_ksiazek}";
             }
