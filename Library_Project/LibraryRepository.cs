@@ -21,7 +21,7 @@ namespace Library_Project
             var aktualnaListaKsiazek = GetBooks();
             for (int i = 0; i < aktualnaListaKsiazek.Count; i++)
             {
-                Console.WriteLine($"{aktualnaListaKsiazek[i].nazwa} {aktualnaListaKsiazek[i].autor_imie} {aktualnaListaKsiazek[i].autor_nazwisko} Ilość:{aktualnaListaKsiazek[i].ilosc_ksiazek}");
+                Console.WriteLine($"{aktualnaListaKsiazek[i].GetInfo(1)}");
             }
         }
 

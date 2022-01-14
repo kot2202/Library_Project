@@ -80,7 +80,7 @@ namespace Library_Project
                         for (nrKsiazki = 0; nrKsiazki < ksiazki.Count; nrKsiazki++)
                         {
                             Console.ForegroundColor = questionTextColor;
-                            Console.WriteLine($"Czy chodzi o {ksiazki[nrKsiazki].nazwa} {ksiazki[nrKsiazki].autor_imie} {ksiazki[nrKsiazki].autor_nazwisko}?\nT/N");
+                            Console.WriteLine($"Czy chodzi o {ksiazki[nrKsiazki].GetInfo()}?\nT/N");
                             komenda = Console.ReadLine();
                             Console.ForegroundColor = generalTextColor; // TODO sprawdzic czy da sie zbugowac kolor
                             if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase)) // pozwala na wpisywanie duzych i malych liter
@@ -89,7 +89,7 @@ namespace Library_Project
                                 {
                                     libraryRepo.ReduceBook(ksiazki[nrKsiazki].id_ksiazki);
                                     Console.ForegroundColor = informationTextColor;
-                                    Console.WriteLine($"Czytelnik ID Wypożyczył {ksiazki[nrKsiazki].nazwa} {ksiazki[nrKsiazki].autor_imie} {ksiazki[nrKsiazki].autor_nazwisko}"); // TODO dodac wpisywanie id czytelnika przed wypozyczeniem
+                                    Console.WriteLine($"Czytelnik ID Wypożyczył {ksiazki[nrKsiazki].GetInfo()}"); // TODO dodac wpisywanie id czytelnika przed wypozyczeniem
                                 }
                                 else
                                 {
