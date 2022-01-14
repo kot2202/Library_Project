@@ -51,7 +51,6 @@ namespace Library_Project
                 {
                     ksiazkaDoZredukowania.ilosc_ksiazek = ksiazkaDoZredukowania.ilosc_ksiazek - 1;
                     libraryDb.SaveChanges();
-                    Console.WriteLine("TODO: DODAJ REKORD DO TABELI WYPOZYCZENIA"); // TODO
                 }
             }
         }
@@ -61,7 +60,9 @@ namespace Library_Project
         /// </summary>
         public void RentBook(int idKsiazki, int idCzytelnika)
         {
+#if DEBUG
             Console.WriteLine($"ksiazka:{idKsiazki} czytelnik:{idCzytelnika}");
+#endif
             ReduceBook(idKsiazki);
 
 
