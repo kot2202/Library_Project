@@ -4,12 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0ea6577b31e140c285196896e59b1a2c" Name="Diagram1" ZoomLevel="151">
+      <Diagram DiagramId="0ea6577b31e140c285196896e59b1a2c" Name="Diagram1" ZoomLevel="98">
         <EntityTypeShape EntityType="library_projectModel.Czytelnicy" Width="1.5" PointX="0.75" PointY="1.125" />
         <EntityTypeShape EntityType="library_projectModel.Ksiazki" Width="1.5" PointX="0.75" PointY="5.125" />
         <EntityTypeShape EntityType="library_projectModel.Wypozyczenia" Width="1.5" PointX="3" PointY="1" />
         <AssociationConnector Association="library_projectModel.FK_Wypozyczenia_id_czytelnika" />
         <AssociationConnector Association="library_projectModel.FK_Wypozyczenia_id_ksiazki" />
+        <EntityTypeShape EntityType="library_projectModel.WypozyczeniaView" Width="1.5" PointX="3.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

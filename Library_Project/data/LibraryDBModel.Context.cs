@@ -28,5 +28,6 @@ namespace Library_Project.data
         public virtual DbSet<Czytelnicy> Czytelnicy { get; set; }
         public virtual DbSet<Ksiazki> Ksiazki { get; set; }
         public virtual DbSet<Wypozyczenia> Wypozyczenia { get; set; }
+        public virtual DbSet<WypozyczeniaView> WypozyczeniaView { get; set; }
     }
 }

@@ -35,3 +35,11 @@ CREATE TABLE [Wypozyczenia] (
     FOREIGN KEY ([id_ksiazki])
       REFERENCES [Ksiazki]([id_ksiazki])
 );
+
+CREATE OR ALTER VIEW WypozyczeniaView
+AS
+SELECT id_wypozyczenia, czytelnik_imie, czytelnik_nazwisko, czytelnik_imie + ' ' + czytelnik_nazwisko as czytelnik_imie_nazwisko, czytelnik_adres, data_wypozyczenia_od, data_ostatni_update, aktywne, nazwa, autor_imie, autor_nazwisko
+FROM Wypozyczenia as w
+INNER JOIN Czytelnicy as c on c.id_czytelnika=w.id_czytelnika
+INNER JOIN Ksiazki as k on k.id_ksiazki=w.id_ksiazki
+GO

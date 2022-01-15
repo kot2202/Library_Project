@@ -166,7 +166,29 @@ namespace Library_Project
                         break;
                     #endregion
                     case 4:
-                        throw new NotImplementedException();
+                        Console.ForegroundColor = questionTextColor;
+                        string infoCzytelnik;
+                        string infoKsiazka;
+                        Console.WriteLine("Podaj imie / nazwisko czytelnika"); // TODO przypisac te 2 teksty do zmiennych w settings
+                        infoCzytelnik = Console.ReadLine();
+
+                        Console.WriteLine("Podaj nazwę książki do zwrotu");
+                        infoKsiazka = Console.ReadLine();
+                        var listaWypozyczenDoZwrotu = libraryRepo.GetRentsForReturn(infoCzytelnik, infoKsiazka);
+
+                        for (int i = 0; i < listaWypozyczenDoZwrotu.Count; i++)
+                        {
+                            Console.WriteLine($"Czy chodzi o {listaWypozyczenDoZwrotu[i].czytelnik_imie_nazwisko} {listaWypozyczenDoZwrotu[i].nazwa} {listaWypozyczenDoZwrotu[i].autor_nazwisko} Data wyp: {listaWypozyczenDoZwrotu[i].data_wypozyczenia_od} T/N");
+                            komenda = Console.ReadLine();
+                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase)) // pozwala na wpisywanie duzych i malych liter
+                            {
+                                libraryRepo.ReturnBook(listaWypozyczenDoZwrotu[i].id_wypozyczenia);
+                                goto default; // goto to ostatecznosc
+                            }
+                        }
+                        Console.ForegroundColor = errorTextColor;
+                        Console.WriteLine("Nie znaleziono takiego wypożyczenia");
+                        break;
                     case 5:
                     #region Dodaj nowa ksiazke
                         data.Ksiazki nowaKsiazka = new data.Ksiazki();

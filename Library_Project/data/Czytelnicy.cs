@@ -35,7 +35,7 @@ namespace Library_Project.data
             info = $"{czytelnik_imie} {czytelnik_nazwisko} {czytelnik_adres} {czytelnik_pesel}";
             return info;
         }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wypozyczenia> Wypozyczenia { get; set; }
     }

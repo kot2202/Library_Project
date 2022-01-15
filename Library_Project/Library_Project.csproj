@@ -76,6 +76,9 @@
     <Compile Include="data\Wypozyczenia.cs">
       <DependentUpon>LibraryDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="data\WypozyczeniaView.cs">
+      <DependentUpon>LibraryDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="LibraryRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

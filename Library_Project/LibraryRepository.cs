@@ -104,5 +104,28 @@ namespace Library_Project
                 libraryDb.SaveChanges();
             }
         }
+
+        public List<data.WypozyczeniaView> GetRentsForReturn(string infoCzytelnik, string infoKsiazka)
+        {
+            using (var libraryDb = new data.library_projectEntities())
+            {
+                List<data.WypozyczeniaView> listaWypozyczen = libraryDb.WypozyczeniaView.Where(x => x.czytelnik_imie_nazwisko.Contains(infoCzytelnik) && x.nazwa.Contains(infoKsiazka) && x.aktywne == 1).ToList();
+                return listaWypozyczen;
+            }
+        }
+
+        public void ReturnBook(int idWypozyczeniaDoZwrotu)
+        {
+            using (var libraryDb = new data.library_projectEntities())
+            {
+                data.Wypozyczenia wypozyczenieDoSkonczenia = libraryDb.Wypozyczenia.SingleOrDefault(x => x.id_wypozyczenia == idWypozyczeniaDoZwrotu);
+                if (wypozyczenieDoSkonczenia != null)
+                {
+                    wypozyczenieDoSkonczenia.aktywne = 0;
+                    wypozyczenieDoSkonczenia.data_ostatni_update = DateTime.Now;
+                    libraryDb.SaveChanges();
+                }
+            }
+        }
     }
 }

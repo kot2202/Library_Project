@@ -33,8 +33,35 @@
           <Property Name="id_czytelnika" Type="int" Nullable="false" />
           <Property Name="id_ksiazki" Type="int" Nullable="false" />
           <Property Name="aktywne" Type="int" Nullable="false" />
-          <Property Name="data_wypozyczenia_od" Type="datetime" Nullable="false" />
-          <Property Name="data_ostatni_update" Type="datetime" />
+          <Property Name="data_wypozyczenia_od" Type="smalldatetime" Nullable="false" />
+          <Property Name="data_ostatni_update" Type="smalldatetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'library_project.dbo.WypozyczeniaView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="WypozyczeniaView">
+          <Key>
+            <PropertyRef Name="id_wypozyczenia" />
+            <PropertyRef Name="czytelnik_imie" />
+            <PropertyRef Name="czytelnik_nazwisko" />
+            <PropertyRef Name="czytelnik_imie_nazwisko" />
+            <PropertyRef Name="czytelnik_adres" />
+            <PropertyRef Name="data_wypozyczenia_od" />
+            <PropertyRef Name="aktywne" />
+            <PropertyRef Name="nazwa" />
+            <PropertyRef Name="autor_imie" />
+            <PropertyRef Name="autor_nazwisko" />
+          </Key>
+          <Property Name="id_wypozyczenia" Type="int" Nullable="false" />
+          <Property Name="czytelnik_imie" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="czytelnik_nazwisko" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="czytelnik_imie_nazwisko" Type="varchar" MaxLength="41" Nullable="false" />
+          <Property Name="czytelnik_adres" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="data_wypozyczenia_od" Type="smalldatetime" Nullable="false" />
+          <Property Name="data_ostatni_update" Type="smalldatetime" />
+          <Property Name="aktywne" Type="int" Nullable="false" />
+          <Property Name="nazwa" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="autor_imie" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="autor_nazwisko" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <Association Name="FK_Wypozyczenia_id_czytelnika">
           <End Role="Czytelnicy" Type="Self.Czytelnicy" Multiplicity="1" />
@@ -64,6 +91,21 @@
           <EntitySet Name="Czytelnicy" EntityType="Self.Czytelnicy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ksiazki" EntityType="Self.Ksiazki" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Wypozyczenia" EntityType="Self.Wypozyczenia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WypozyczeniaView" EntityType="Self.WypozyczeniaView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [WypozyczeniaView].[id_wypozyczenia] AS [id_wypozyczenia], 
+    [WypozyczeniaView].[czytelnik_imie] AS [czytelnik_imie], 
+    [WypozyczeniaView].[czytelnik_nazwisko] AS [czytelnik_nazwisko], 
+    [WypozyczeniaView].[czytelnik_imie_nazwisko] AS [czytelnik_imie_nazwisko], 
+    [WypozyczeniaView].[czytelnik_adres] AS [czytelnik_adres], 
+    [WypozyczeniaView].[data_wypozyczenia_od] AS [data_wypozyczenia_od], 
+    [WypozyczeniaView].[data_ostatni_update] AS [data_ostatni_update], 
+    [WypozyczeniaView].[aktywne] AS [aktywne], 
+    [WypozyczeniaView].[nazwa] AS [nazwa], 
+    [WypozyczeniaView].[autor_imie] AS [autor_imie], 
+    [WypozyczeniaView].[autor_nazwisko] AS [autor_nazwisko]
+    FROM [dbo].[WypozyczeniaView] AS [WypozyczeniaView]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Wypozyczenia_id_czytelnika" Association="Self.FK_Wypozyczenia_id_czytelnika">
             <End Role="Czytelnicy" EntitySet="Czytelnicy" />
             <End Role="Wypozyczenia" EntitySet="Wypozyczenia" />
@@ -89,6 +131,7 @@
             <End Role="Ksiazki" EntitySet="Ksiazki" />
             <End Role="Wypozyczenia" EntitySet="Wypozyczenia" />
           </AssociationSet>
+          <EntitySet Name="WypozyczeniaView" EntityType="library_projectModel.WypozyczeniaView" />
         </EntityContainer>
         <EntityType Name="Czytelnicy">
           <Key>
@@ -120,8 +163,8 @@
           <Property Name="id_czytelnika" Type="Int32" Nullable="false" />
           <Property Name="id_ksiazki" Type="Int32" Nullable="false" />
           <Property Name="aktywne" Type="Int32" Nullable="false" />
-          <Property Name="data_wypozyczenia_od" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="data_ostatni_update" Type="DateTime" Precision="3" />
+          <Property Name="data_wypozyczenia_od" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="data_ostatni_update" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Czytelnicy" Relationship="library_projectModel.FK_Wypozyczenia_id_czytelnika" FromRole="Wypozyczenia" ToRole="Czytelnicy" />
           <NavigationProperty Name="Ksiazki" Relationship="library_projectModel.FK_Wypozyczenia_id_ksiazki" FromRole="Wypozyczenia" ToRole="Ksiazki" />
         </EntityType>
@@ -149,6 +192,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="WypozyczeniaView">
+          <Key>
+            <PropertyRef Name="czytelnik_imie" />
+            <PropertyRef Name="czytelnik_nazwisko" />
+            <PropertyRef Name="czytelnik_adres" />
+            <PropertyRef Name="data_wypozyczenia_od" />
+            <PropertyRef Name="aktywne" />
+            <PropertyRef Name="nazwa" />
+            <PropertyRef Name="autor_imie" />
+            <PropertyRef Name="autor_nazwisko" />
+            <PropertyRef Name="czytelnik_imie_nazwisko" />
+            <PropertyRef Name="id_wypozyczenia" />
+          </Key>
+          <Property Name="czytelnik_imie" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="czytelnik_nazwisko" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="czytelnik_adres" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="data_wypozyczenia_od" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="data_ostatni_update" Type="DateTime" Precision="0" />
+          <Property Name="aktywne" Type="Int32" Nullable="false" />
+          <Property Name="nazwa" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="autor_imie" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="autor_nazwisko" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="czytelnik_imie_nazwisko" Type="String" Nullable="false" MaxLength="41" FixedLength="false" Unicode="false" />
+          <Property Name="id_wypozyczenia" Type="Int32" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -186,6 +254,23 @@
                 <ScalarProperty Name="id_ksiazki" ColumnName="id_ksiazki" />
                 <ScalarProperty Name="id_czytelnika" ColumnName="id_czytelnika" />
                 <ScalarProperty Name="id_wypozyczenia" ColumnName="id_wypozyczenia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WypozyczeniaView">
+            <EntityTypeMapping TypeName="library_projectModel.WypozyczeniaView">
+              <MappingFragment StoreEntitySet="WypozyczeniaView">
+                <ScalarProperty Name="id_wypozyczenia" ColumnName="id_wypozyczenia" />
+                <ScalarProperty Name="czytelnik_imie_nazwisko" ColumnName="czytelnik_imie_nazwisko" />
+                <ScalarProperty Name="autor_nazwisko" ColumnName="autor_nazwisko" />
+                <ScalarProperty Name="autor_imie" ColumnName="autor_imie" />
+                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+                <ScalarProperty Name="aktywne" ColumnName="aktywne" />
+                <ScalarProperty Name="data_ostatni_update" ColumnName="data_ostatni_update" />
+                <ScalarProperty Name="data_wypozyczenia_od" ColumnName="data_wypozyczenia_od" />
+                <ScalarProperty Name="czytelnik_adres" ColumnName="czytelnik_adres" />
+                <ScalarProperty Name="czytelnik_nazwisko" ColumnName="czytelnik_nazwisko" />
+                <ScalarProperty Name="czytelnik_imie" ColumnName="czytelnik_imie" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
