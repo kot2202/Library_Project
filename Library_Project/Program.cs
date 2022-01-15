@@ -36,6 +36,9 @@ namespace Library_Project
             ConsoleColor menuShowBookTextColor = informationTextColor;
             const string menuShowBookHead = "Dostępne książki:";
 
+            /// Show Rents Menu ///
+            const string menuShowRentsHead = "Obecne wypożyczenia:";
+
             /// Rent Book Menu ///
             ConsoleColor menuBookRentColor = questionTextColor;
             const string menuBookRentBody = "Podaj część tytułu książki, jeśli jest dostępna, zostanie wypożyczona";
@@ -82,6 +85,7 @@ namespace Library_Project
                     #endregion
                     case 2:
                     #region Stan wypozyczen
+                        Console.WriteLine(menuShowRentsHead);
                         List<data.Wypozyczenia> listaWypozyczen = libraryRepo.GetRents(); // moze zwrocic pusta liste TODO obsluga wyjatkow
                         for(int i = 0; i < listaWypozyczen.Count; i++)
                         {
