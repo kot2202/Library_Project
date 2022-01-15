@@ -88,6 +88,7 @@ namespace Library_Project
                     #endregion
                     case 2:
                     #region Stan wypozyczen
+                        // TODO zrobic update wersje z nowym view
                         Console.WriteLine(menuShowRentsHead);
                         List<data.Wypozyczenia> listaWypozyczen = libraryRepo.GetRents(); // moze zwrocic pusta liste TODO obsluga wyjatkow
                         for(int i = 0; i < listaWypozyczen.Count; i++)
@@ -166,6 +167,7 @@ namespace Library_Project
                         break;
                     #endregion
                     case 4:
+                    #region Zwroc ksiazke
                         Console.ForegroundColor = questionTextColor;
                         string infoCzytelnik;
                         string infoKsiazka;
@@ -191,6 +193,7 @@ namespace Library_Project
                         Console.ForegroundColor = errorTextColor;
                         Console.WriteLine("Nie znaleziono takiego wypożyczenia");
                         break;
+                    #endregion
                     case 5:
                     #region Dodaj nowa ksiazke
                         data.Ksiazki nowaKsiazka = new data.Ksiazki();
@@ -222,7 +225,41 @@ namespace Library_Project
                         break;
                     #endregion
                     case 6:
-                        throw new NotImplementedException();
+                    #region Usun ksiazke
+                        Console.ForegroundColor = questionTextColor;
+                        Console.WriteLine("Podaj nazwę książki którą chcesz usunąć");
+                        komenda = Console.ReadLine();
+                        var ksiazkiDoUsuniecia = libraryRepo.GetBooksWithName(komenda);
+
+                        for (int nrKsiazki = 0; nrKsiazki < ksiazkiDoUsuniecia.Count; nrKsiazki++)
+                        {
+                            Console.ForegroundColor = questionTextColor;
+                            Console.WriteLine($"Czy chodzi o {ksiazkiDoUsuniecia[nrKsiazki].GetInfo(1,0)}?\nT/N"); // TODO dodac slownik odpowiedzi (t,tak,y,yes)
+                            komenda = Console.ReadLine();
+                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase) ) // pozwala na wpisywanie duzych i malych liter
+                            {
+                                // TODO zrobic wiecej testow do tego
+                                try
+                                {
+                                    libraryRepo.TryToDeleteBook(ksiazkiDoUsuniecia[nrKsiazki].id_ksiazki);
+                                }
+                                catch(System.Data.Entity.Infrastructure.DbUpdateException) // problem przy updatowaniu bazy
+                                {
+                                    Console.ForegroundColor = errorTextColor;
+                                    Console.WriteLine("Błąd usuwania, prawdopodobnie ta książka jest obecnie przez kogoś wypożyczona");
+                                    goto default; // uzywanie goto to ostatecznosc
+                                }
+                                finally
+                                {
+                                    Console.ForegroundColor = informationTextColor;
+                                    Console.WriteLine("Pomyślnie usunięto książkę");
+                                }
+                            }
+                        }
+                        Console.ForegroundColor = errorTextColor;
+                        Console.WriteLine("Nie znaleziono takiego wypożyczenia");
+                        #endregion
+                        break;
                     case 7:
                         throw new NotImplementedException();
                     case 8:

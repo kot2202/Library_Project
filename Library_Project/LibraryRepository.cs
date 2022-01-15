@@ -127,5 +127,15 @@ namespace Library_Project
                 }
             }
         }
+
+        public void TryToDeleteBook(int idKsiazkiDoUsuniecia)
+        {
+            using (var libraryDb = new data.library_projectEntities())
+            {
+                data.Ksiazki ksiazkaDoUsuniecia = libraryDb.Ksiazki.SingleOrDefault(x => x.id_ksiazki == idKsiazkiDoUsuniecia);
+                libraryDb.Ksiazki.Remove(libraryDb.Ksiazki.Find(idKsiazkiDoUsuniecia));
+                libraryDb.SaveChanges();
+            }
+        }
     }
 }
