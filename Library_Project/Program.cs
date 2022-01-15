@@ -52,6 +52,9 @@ namespace Library_Project
             /// Add Book Menu ///
             ConsoleColor menuAddBookColor = questionTextColor;
 
+            // Show Readers Menu //
+            ConsoleColor menuShowReadersColor = ConsoleColor.Blue;
+
             //////////////////////////////////////////////
             #endregion
 
@@ -258,10 +261,18 @@ namespace Library_Project
                         }
                         Console.ForegroundColor = errorTextColor;
                         Console.WriteLine("Nie znaleziono takiego wypożyczenia");
-                        #endregion
                         break;
+                    #endregion
                     case 7:
-                        throw new NotImplementedException();
+                    #region Wyswietl czytelnikow
+                        Console.ForegroundColor = menuShowReadersColor;
+                        List<data.Czytelnicy> listaCzytelnikow = libraryRepo.GetReaders();
+                        for(int i = 0;i < listaCzytelnikow.Count;i++)
+                        {
+                            Console.WriteLine($"{listaCzytelnikow[i].czytelnik_imie} {listaCzytelnikow[i].czytelnik_nazwisko} {listaCzytelnikow[i].czytelnik_adres} {listaCzytelnikow[i].czytelnik_pesel}");
+                        }
+                        break;
+                    #endregion
                     case 8:
                         throw new NotImplementedException();
                     case 9:

@@ -137,5 +137,13 @@ namespace Library_Project
                 libraryDb.SaveChanges();
             }
         }
+
+        public List<data.Czytelnicy> GetReaders()
+        {
+            using (var libraryDb = new data.library_projectEntities())
+            {
+                return libraryDb.Czytelnicy.ToList();
+            }
+        }
     }
 }
