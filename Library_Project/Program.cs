@@ -23,14 +23,17 @@ namespace Library_Project
             ConsoleColor informationTextColor = ConsoleColor.Green;
             Console.ForegroundColor = generalTextColor; // TODO: https://stackoverflow.com/a/34866857
 
-            
+                                            // TODO do zmiany kolejnosc
             const string menuLoopTextHead = "Wybierz opcję i zatwierdź przy użyciu <ENTER>\n";
             const string menuLoopTextBody = "1. Wyświetl stan książek\n" +
-                                            "2. Sprawdź stan wypożyczeń\n" +
+                                            "2. Wyświetl wypożyczenia\n" +
                                             "3. Wypożycz książkę\n" +
                                             "4. Zwróć wypożyczoną książkę\n" +
                                             "5. Dodaj nową książkę\n" +
-                                            "6. Usuń dodaną książkę";
+                                            "6. Usuń dodaną książkę\n" +
+                                            "7. Wyświetl listę czytelników\n" +
+                                            "8. Dodaj czytelnika\n" +
+                                            "9. Usuń czytelnika";
 
             /// Show Books Menu ///
             ConsoleColor menuShowBookTextColor = informationTextColor;
@@ -195,6 +198,12 @@ namespace Library_Project
                         break;
                     #endregion
                     case 6:
+                        throw new NotImplementedException();
+                    case 7:
+                        throw new NotImplementedException();
+                    case 8:
+                        throw new NotImplementedException();
+                    case 9:
                         throw new NotImplementedException();
                     default:
                         break;
