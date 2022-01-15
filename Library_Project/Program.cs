@@ -183,6 +183,8 @@ namespace Library_Project
                             if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase)) // pozwala na wpisywanie duzych i malych liter
                             {
                                 libraryRepo.ReturnBook(listaWypozyczenDoZwrotu[i].id_wypozyczenia);
+                                Console.ForegroundColor = informationTextColor;
+                                Console.WriteLine("Zwrócono książkę.");
                                 goto default; // goto to ostatecznosc
                             }
                         }
