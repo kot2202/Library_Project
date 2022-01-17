@@ -233,6 +233,12 @@ namespace Library_Project
                         nowaKsiazka.autor_nazwisko = Console.ReadLine();
                         Console.WriteLine("ilość książek:");
                         int.TryParse(Console.ReadLine(), out int il);
+                        if (il <1)
+                        {
+                            Console.ForegroundColor = errorTextColor;
+                            Console.WriteLine("Ilość książek musi być większa niż 0");
+                            break;
+                        }
                         nowaKsiazka.ilosc_ksiazek = il;
 
                         Console.WriteLine("Zweryfikuj poprawność:");
