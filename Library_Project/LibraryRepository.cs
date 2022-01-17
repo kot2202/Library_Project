@@ -30,7 +30,7 @@ namespace Library_Project
         {
             using (var libraryDb = new data.library_projectEntities())
             {
-                List<data.WypozyczeniaView> wypozyczeniaView = libraryDb.WypozyczeniaView.Where(x => x.aktywne == 1).ToList(); // moze zwrocic pusta liste TODO obsluga wyjatkow
+                List<data.WypozyczeniaView> wypozyczeniaView = libraryDb.WypozyczeniaView.Where(x => x.aktywne == 1).ToList();
                 List<data.Wypozyczenia> wypozyczenia = libraryDb.Wypozyczenia.Where(x => x.aktywne == 1).ToList(); // TODO zrobic cos z niepotrzebnym powtorzeniem
                 wypozyczenia.ForEach(x => x.data_ostatni_update = DateTime.Now);
                 libraryDb.SaveChanges();
@@ -48,7 +48,7 @@ namespace Library_Project
             }
         }
 
-        public List<data.Ksiazki> GetBooksWithName(string bookName) // TODO moze powinno usuwac znaki diakrytyczne dla prostszego wyszukiwania
+        public List<data.Ksiazki> GetBooksWithName(string bookName)
         {
             using (var libraryDb = new data.library_projectEntities())
             {
@@ -78,7 +78,7 @@ namespace Library_Project
         {
             using (var libraryDb = new data.library_projectEntities())
             {
-                libraryDb.Ksiazki.Add(ksiazkaDoDodania); // TODO dodac obsluge wyjatkow, uzytkownik mogl naklepac wiecej znakow niz pozwala kolumna
+                libraryDb.Ksiazki.Add(ksiazkaDoDodania);
                 libraryDb.SaveChanges();
             }
         }
@@ -158,7 +158,7 @@ namespace Library_Project
         {
             using (var libraryDb = new data.library_projectEntities())
             {
-                libraryDb.Czytelnicy.Add(nowyCzytelnik); // TODO dodac obsluge wyjatkow, uzytkownik mogl naklepac wiecej znakow niz pozwala kolumna
+                libraryDb.Czytelnicy.Add(nowyCzytelnik);
                 libraryDb.SaveChanges();
             }
         }

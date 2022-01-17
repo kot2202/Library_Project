@@ -66,6 +66,7 @@ namespace Library_Project
 
             //////////////////////////////////////////////
 
+            ExtraFunctions extraFunctions = new ExtraFunctions();
             LibraryRepository libraryRepo = new LibraryRepository();
             ushort wybor;
             string komenda;
@@ -90,7 +91,7 @@ namespace Library_Project
                     case 2:
                     #region Stan wypozyczen
                         Console.WriteLine(menuShowRentsHead);
-                        List<data.WypozyczeniaView> listaWypozyczen = libraryRepo.GetRents(); // moze zwrocic pusta liste TODO obsluga wyjatkow
+                        List<data.WypozyczeniaView> listaWypozyczen = libraryRepo.GetRents();
                         if (listaWypozyczen.Count == 0)
                         {
                             Console.ForegroundColor = errorTextColor;
@@ -140,10 +141,10 @@ namespace Library_Project
                         for (int nrKsiazki = 0; nrKsiazki < ksiazki.Count; nrKsiazki++)
                         {
                             Console.ForegroundColor = questionTextColor;
-                            Console.WriteLine($"Czy chodzi o {ksiazki[nrKsiazki].GetInfo()}?\nT/N"); // TODO dodac slownik odpowiedzi (t,tak,y,yes)
+                            Console.WriteLine($"Czy chodzi o {ksiazki[nrKsiazki].GetInfo()}?\nT/N");
                             komenda = Console.ReadLine();
-                            Console.ForegroundColor = generalTextColor; // TODO sprawdzic czy da sie zbugowac kolor
-                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase)) // pozwala na wpisywanie duzych i malych liter
+                            Console.ForegroundColor = generalTextColor;
+                            if (extraFunctions.IsAnswerTrue(komenda)) 
                             {
                                 if (ksiazki[nrKsiazki].ilosc_ksiazek > 0)
                                 {
@@ -164,9 +165,9 @@ namespace Library_Project
                                         for (int nrCzytelnika = 0; nrCzytelnika < czytelnicy.Count; nrCzytelnika++)
                                         {
                                             Console.ForegroundColor = questionTextColor;
-                                            Console.WriteLine($"Czy chodzi o {czytelnicy[nrCzytelnika].GetInfo()}?\nT/N"); // TODO dodac slownik odpowiedzi (t,tak,y,yes)
+                                            Console.WriteLine($"Czy chodzi o {czytelnicy[nrCzytelnika].GetInfo()}?\nT/N");
                                             komenda = Console.ReadLine();
-                                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase)) // dobry czytelnik, dobra ksiazka wczytujemy ich id
+                                            if (extraFunctions.IsAnswerTrue(komenda)) // dobry czytelnik, dobra ksiazka wczytujemy ich id
                                             {
                                                 libraryRepo.RentBook(ksiazki[nrKsiazki].id_ksiazki, czytelnicy[nrCzytelnika].id_czytelnika);
                                             }
@@ -199,9 +200,9 @@ namespace Library_Project
 
                         for (int i = 0; i < listaWypozyczenDoZwrotu.Count; i++)
                         {
-                            Console.WriteLine($"Czy chodzi o {listaWypozyczenDoZwrotu[i].czytelnik_imie_nazwisko} {listaWypozyczenDoZwrotu[i].nazwa} {listaWypozyczenDoZwrotu[i].autor_nazwisko} Data wyp: {listaWypozyczenDoZwrotu[i].data_wypozyczenia_od} T/N");
+                            Console.WriteLine($"Czy chodzi o {listaWypozyczenDoZwrotu[i].czytelnik_imie_nazwisko} {listaWypozyczenDoZwrotu[i].nazwa} {listaWypozyczenDoZwrotu[i].autor_nazwisko} Data wyp: {listaWypozyczenDoZwrotu[i].data_wypozyczenia_od}\nT/N");
                             komenda = Console.ReadLine();
-                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase)) // pozwala na wpisywanie duzych i malych liter
+                            if (extraFunctions.IsAnswerTrue(komenda)) // pozwala na wpisywanie duzych i malych liter
                             {
                                 libraryRepo.ReturnBook(listaWypozyczenDoZwrotu[i].id_wypozyczenia);
                                 Console.ForegroundColor = informationTextColor;
@@ -240,7 +241,7 @@ namespace Library_Project
                         Console.ForegroundColor = menuAddBookColor;
                         Console.WriteLine("Czy wygląda poprawnie?\nT/N");
                         komenda = Console.ReadLine();
-                        if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase))
+                        if (extraFunctions.IsAnswerTrue(komenda))
                         {
                             try
                             {
@@ -273,16 +274,16 @@ namespace Library_Project
                         for (int nrKsiazki = 0; nrKsiazki < ksiazkiDoUsuniecia.Count; nrKsiazki++)
                         {
                             Console.ForegroundColor = questionTextColor;
-                            Console.WriteLine($"Czy chodzi o {ksiazkiDoUsuniecia[nrKsiazki].GetInfo(1, 0)}?\nT/N"); // TODO dodac slownik odpowiedzi (t,tak,y,yes)
+                            Console.WriteLine($"Czy chodzi o {ksiazkiDoUsuniecia[nrKsiazki].GetInfo(1, 0)}?\nT/N");
                             komenda = Console.ReadLine();
-                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase)) // pozwala na wpisywanie duzych i malych liter
+                            if (extraFunctions.IsAnswerTrue(komenda))
                             {
                                 // TODO zrobic wiecej testow do tego
                                 try
                                 {
                                     libraryRepo.TryToDeleteBook(ksiazkiDoUsuniecia[nrKsiazki].id_ksiazki);
                                 }
-                                catch (System.Data.Entity.Infrastructure.DbUpdateException) // problem przy updatowaniu bazy
+                                catch (System.Data.Entity.Infrastructure.DbUpdateException)
                                 {
                                     Console.ForegroundColor = errorTextColor;
                                     Console.WriteLine("Błąd usuwania, prawdopodobnie ta książka jest obecnie przez kogoś wypożyczona");
@@ -326,7 +327,7 @@ namespace Library_Project
                         Console.ForegroundColor = questionTextColor;
                         Console.WriteLine("Czy wygląda poprawnie?\nT/N");
                         komenda = Console.ReadLine();
-                        if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase))
+                        if (extraFunctions.IsAnswerTrue(komenda))
                         {
                             try
                             {
@@ -358,9 +359,9 @@ namespace Library_Project
                         }
                         for(int nrCzytelnika = 0; nrCzytelnika < czytelnicyDoUsuniecia.Count; nrCzytelnika++)
                         {
-                            Console.WriteLine($"Czy chodzi o {czytelnicyDoUsuniecia[nrCzytelnika].GetInfo()}?\nT/N"); // TODO dodac slownik odpowiedzi (t,tak,y,yes)
+                            Console.WriteLine($"Czy chodzi o {czytelnicyDoUsuniecia[nrCzytelnika].GetInfo()}?\nT/N");
                             komenda = Console.ReadLine();
-                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase)) // pozwala na wpisywanie duzych i malych liter
+                            if (extraFunctions.IsAnswerTrue(komenda))
                             {
                                 // TODO zrobic wiecej testow do tego
                                 try
