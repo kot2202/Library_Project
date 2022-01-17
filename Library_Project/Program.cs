@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Library_Project
@@ -57,6 +58,7 @@ namespace Library_Project
 
             /// Add Reader Menu ///
             ConsoleColor menuAddReaderColor = ConsoleColor.Blue;
+            string peselRegex = "^\\d{11}$";
 
             //////////////////////////////////////////////
             #endregion
@@ -64,11 +66,6 @@ namespace Library_Project
             Console.OutputEncoding = Encoding.UTF8; // Allows the usage of polish and other characters
 
             //////////////////////////////////////////////
-            
-            // TODO dodac wychodzenie z zapetlonego menu
-
-            // TODO dodac publiczna klase z ustawieniami m.in. kolorków, żeby LibraryRepository moglo korzystac z kolorkow,
-            // wtedy bedzie mniej syfu w Program
 
             LibraryRepository libraryRepo = new LibraryRepository();
             ushort wybor;
@@ -94,7 +91,6 @@ namespace Library_Project
                     #endregion
                     case 2:
                     #region Stan wypozyczen
-                        // TODO zrobic update wersje z nowym view
                         Console.WriteLine(menuShowRentsHead);
                         List<data.WypozyczeniaView> listaWypozyczen = libraryRepo.GetRents(); // moze zwrocic pusta liste TODO obsluga wyjatkow
                         if (listaWypozyczen.Count == 0)
@@ -259,12 +255,8 @@ namespace Library_Project
                                 Console.WriteLine("Wystąpił błąd przy dodawaniu książki");
                                 break;
                             }
-                            finally
-                            {
-                                Console.ForegroundColor = informationTextColor;
-                                Console.WriteLine("Pomyślnie dodano książkę");
-                            }
-
+                            Console.ForegroundColor = informationTextColor;
+                            Console.WriteLine("Pomyślnie dodano książkę");
                         }
                         break;
                     #endregion
@@ -314,43 +306,43 @@ namespace Library_Project
                     case 8:
                     #region Dodaj czytelnika
                         data.Czytelnicy nowyCzytelnik = new data.Czytelnicy();
-                        komenda = "n";
-                        while (komenda != "t")
-                        {
-                            Console.ForegroundColor = menuAddReaderColor;
-                            Console.WriteLine("Podaj imię czytelnika, którego chcesz dodać");
-                            nowyCzytelnik.czytelnik_imie = Console.ReadLine();
-                            Console.WriteLine("nazwisko:");
-                            nowyCzytelnik.czytelnik_nazwisko = Console.ReadLine();
-                            Console.WriteLine("adres:");
-                            nowyCzytelnik.czytelnik_adres = Console.ReadLine();
-                            Console.WriteLine("pesel:");
-                            nowyCzytelnik.czytelnik_pesel = Console.ReadLine();
+                        Regex regex = new Regex(peselRegex);
+                        Console.ForegroundColor = menuAddReaderColor;
+                        Console.WriteLine("Podaj imię czytelnika, którego chcesz dodać");
+                        nowyCzytelnik.czytelnik_imie = Console.ReadLine();
+                        Console.WriteLine("nazwisko:");
+                        nowyCzytelnik.czytelnik_nazwisko = Console.ReadLine();
+                        Console.WriteLine("adres:");
+                        nowyCzytelnik.czytelnik_adres = Console.ReadLine();
+                        Console.WriteLine("pesel:");
+                        nowyCzytelnik.czytelnik_pesel = Console.ReadLine();
 
-                            Console.WriteLine("Zweryfikuj poprawność:");
-                            Console.ForegroundColor = informationTextColor;
-                            Console.WriteLine(nowyCzytelnik.GetInfo());
-                            Console.ForegroundColor = questionTextColor;
-                            Console.WriteLine("Czy wygląda poprawnie?\nT/N");
-                            komenda = Console.ReadLine();
-                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase))
+                        if(!regex.IsMatch(nowyCzytelnik.czytelnik_pesel))
+                        {
+                            Console.WriteLine("Zły pesel");
+                            break;
+                        }
+
+                        Console.WriteLine("Zweryfikuj poprawność:");
+                        Console.ForegroundColor = informationTextColor;
+                        Console.WriteLine(nowyCzytelnik.GetInfo());
+                        Console.ForegroundColor = questionTextColor;
+                        Console.WriteLine("Czy wygląda poprawnie?\nT/N");
+                        komenda = Console.ReadLine();
+                        if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase))
+                        {
+                            try
                             {
-                                try
-                                {
-                                    libraryRepo.AddNewReader(nowyCzytelnik);
-                                }
-                                catch
-                                {
-                                    Console.ForegroundColor = errorTextColor;
-                                    Console.WriteLine("Wystąpił błąd przy dodawaniu czytelnika");
-                                    break;
-                                }
-                                finally
-                                {
-                                    Console.ForegroundColor = informationTextColor;
-                                    Console.WriteLine("Pomyślnie dodano czytelnika");
-                                }
+                                libraryRepo.AddNewReader(nowyCzytelnik);
                             }
+                            catch
+                            {
+                                Console.ForegroundColor = errorTextColor;
+                                Console.WriteLine("Wystąpił błąd przy dodawaniu czytelnika");
+                                break;
+                            }
+                            Console.ForegroundColor = informationTextColor;
+                            Console.WriteLine("Pomyślnie dodano czytelnika");
                         }
                         break;
                     #endregion
