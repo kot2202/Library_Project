@@ -27,13 +27,13 @@ namespace Library_Project
             const string menuLoopTextHead = "Wybierz opcję i zatwierdź przy użyciu <ENTER>\n";
             const string menuLoopTextBody = "1. Wyświetl stan książek\n" +
                                             "2. Wyświetl wypożyczenia\n" +
-                                            "3. Wypożycz książkę\n" +
-                                            "4. Zwróć wypożyczoną książkę\n" +
-                                            "5. Dodaj nową książkę\n" +
-                                            "6. Usuń dodaną książkę\n" +
-                                            "7. Wyświetl listę czytelników\n" +
+                                            "3. Wyświetl czytelników\n" +
+                                            "4. Wypożycz książkę\n" +
+                                            "5. Zwróć wypożyczoną książkę\n" +
+                                            "6. Dodaj nową książkę\n" +
+                                            "7. Usuń dodaną książkę\n" +
                                             "8. Dodaj czytelnika\n" +
-                                            "9. Usuń czytelnika";
+                                            "9. Usuń czytelnika\n";
 
             /// Show Books Menu ///
             ConsoleColor menuShowBookTextColor = informationTextColor;
@@ -110,6 +110,16 @@ namespace Library_Project
                         break;
                     #endregion
                     case 3:
+                    #region Wyswietl czytelnikow
+                        Console.ForegroundColor = menuShowReadersColor;
+                        List<data.Czytelnicy> listaCzytelnikow = libraryRepo.GetReaders();
+                        for (int i = 0; i < listaCzytelnikow.Count; i++)
+                        {
+                            Console.WriteLine($"{listaCzytelnikow[i].czytelnik_imie} {listaCzytelnikow[i].czytelnik_nazwisko} {listaCzytelnikow[i].czytelnik_adres} {listaCzytelnikow[i].czytelnik_pesel}");
+                        }
+                        break;
+                    #endregion
+                    case 4:
                     #region Wypozycz ksiazke
                         // TODO jakos zamknac to w metodzie
                         Console.ForegroundColor = menuBookRentColor;
@@ -171,8 +181,8 @@ namespace Library_Project
                         Console.ForegroundColor = errorTextColor;
                         Console.WriteLine("Nie ma na stanie więcej książek o tej nazwie");
                         break;
-                    #endregion
-                    case 4:
+                        #endregion
+                    case 5:
                     #region Zwroc ksiazke
                         Console.ForegroundColor = questionTextColor;
                         string infoCzytelnik;
@@ -199,8 +209,8 @@ namespace Library_Project
                         Console.ForegroundColor = errorTextColor;
                         Console.WriteLine("Nie znaleziono takiego wypożyczenia");
                         break;
-                    #endregion
-                    case 5:
+                    #endregion 
+                    case 6:
                     #region Dodaj nowa ksiazke
                         data.Ksiazki nowaKsiazka = new data.Ksiazki();
                         komenda = "n";
@@ -240,19 +250,19 @@ namespace Library_Project
                                     Console.ForegroundColor = informationTextColor;
                                     Console.WriteLine("Pomyślnie dodano książkę");
                                 }
-                                
+
                             }
                         }
                         break;
                     #endregion
-                    case 6:
+                    case 7:
                     #region Usun ksiazke
                         Console.ForegroundColor = questionTextColor;
                         Console.WriteLine("Podaj nazwę książki którą chcesz usunąć");
                         komenda = Console.ReadLine();
                         var ksiazkiDoUsuniecia = libraryRepo.GetBooksWithName(komenda);
 
-                        if(ksiazkiDoUsuniecia.Count == 0)
+                        if (ksiazkiDoUsuniecia.Count == 0)
                         {
                             Console.ForegroundColor = errorTextColor;
                             Console.WriteLine("Nie znaleziono takiej książki");
@@ -261,16 +271,16 @@ namespace Library_Project
                         for (int nrKsiazki = 0; nrKsiazki < ksiazkiDoUsuniecia.Count; nrKsiazki++)
                         {
                             Console.ForegroundColor = questionTextColor;
-                            Console.WriteLine($"Czy chodzi o {ksiazkiDoUsuniecia[nrKsiazki].GetInfo(1,0)}?\nT/N"); // TODO dodac slownik odpowiedzi (t,tak,y,yes)
+                            Console.WriteLine($"Czy chodzi o {ksiazkiDoUsuniecia[nrKsiazki].GetInfo(1, 0)}?\nT/N"); // TODO dodac slownik odpowiedzi (t,tak,y,yes)
                             komenda = Console.ReadLine();
-                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase) ) // pozwala na wpisywanie duzych i malych liter
+                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase)) // pozwala na wpisywanie duzych i malych liter
                             {
                                 // TODO zrobic wiecej testow do tego
                                 try
                                 {
                                     libraryRepo.TryToDeleteBook(ksiazkiDoUsuniecia[nrKsiazki].id_ksiazki);
                                 }
-                                catch(System.Data.Entity.Infrastructure.DbUpdateException) // problem przy updatowaniu bazy
+                                catch (System.Data.Entity.Infrastructure.DbUpdateException) // problem przy updatowaniu bazy
                                 {
                                     Console.ForegroundColor = errorTextColor;
                                     Console.WriteLine("Błąd usuwania, prawdopodobnie ta książka jest obecnie przez kogoś wypożyczona");
@@ -286,16 +296,6 @@ namespace Library_Project
                         }
                         Console.ForegroundColor = errorTextColor;
                         Console.WriteLine("Nie znaleziono więcej książek o tej nazwie");
-                        break;
-                    #endregion
-                    case 7:
-                    #region Wyswietl czytelnikow
-                        Console.ForegroundColor = menuShowReadersColor;
-                        List<data.Czytelnicy> listaCzytelnikow = libraryRepo.GetReaders();
-                        for(int i = 0;i < listaCzytelnikow.Count;i++)
-                        {
-                            Console.WriteLine($"{listaCzytelnikow[i].czytelnik_imie} {listaCzytelnikow[i].czytelnik_nazwisko} {listaCzytelnikow[i].czytelnik_adres} {listaCzytelnikow[i].czytelnik_pesel}");
-                        }
                         break;
                     #endregion
                     case 8:
