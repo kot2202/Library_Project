@@ -35,6 +35,7 @@ CREATE TABLE [Wypozyczenia] (
     FOREIGN KEY ([id_ksiazki])
       REFERENCES [Ksiazki]([id_ksiazki])
 );
+GO
 
 CREATE OR ALTER VIEW WypozyczeniaView
 AS
