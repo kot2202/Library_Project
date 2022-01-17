@@ -46,6 +46,8 @@ GO
 
 CREATE OR ALTER VIEW CzytelnicyView
 AS
-SELECT czytelnik_imie, czytelnik_nazwisko, czytelnik_adres, czytelnik_pesel, czytelnik_imie + ' ' + czytelnik_nazwisko AS czytelnik_imie_nazwisko
+SELECT id_czytelnika, czytelnik_imie, czytelnik_nazwisko, czytelnik_adres, czytelnik_pesel, czytelnik_imie + ' ' + czytelnik_nazwisko AS czytelnik_imie_nazwisko
 FROM Czytelnicy
 GO
+
+SELECT * FROM CzytelnicyView
