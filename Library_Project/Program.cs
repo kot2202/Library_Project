@@ -225,7 +225,22 @@ namespace Library_Project
                             komenda = Console.ReadLine();
                             if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase))
                             {
-                                libraryRepo.AddNewBook(nowaKsiazka);
+                                try
+                                {
+                                    libraryRepo.AddNewBook(nowaKsiazka);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.ForegroundColor = errorTextColor;
+                                    Console.WriteLine("Wystąpił błąd przy dodawaniu książki");
+                                    break;
+                                }
+                                finally
+                                {
+                                    Console.ForegroundColor = informationTextColor;
+                                    Console.WriteLine("Pomyślnie dodano książkę");
+                                }
+                                
                             }
                         }
                         break;
