@@ -81,15 +81,15 @@ namespace Library_Project
                 switch (wybor)
                 {
                     case 1:
-                    #region Stan ksiazek
+                        #region Stan ksiazek
                         Console.WriteLine(menuShowBookHead);
                         Console.ForegroundColor = menuShowBookTextColor;
                         libraryRepo.ShowBooks();
                         Console.ForegroundColor = generalTextColor;
                         break;
-                    #endregion
+                        #endregion
                     case 2:
-                    #region Stan wypozyczen
+                        #region Stan wypozyczen
                         Console.WriteLine(menuShowRentsHead);
                         List<data.WypozyczeniaView> listaWypozyczen = libraryRepo.GetRents();
                         if (listaWypozyczen.Count == 0)
@@ -108,12 +108,12 @@ namespace Library_Project
                             Console.WriteLine(listaWypozyczen[i].GetInfo());
                         }
                         break;
-                    #endregion
+                        #endregion
                     case 3:
-                    #region Wyswietl czytelnikow
+                        #region Wyswietl czytelnikow
                         Console.ForegroundColor = menuShowReadersColor;
                         List<data.Czytelnicy> listaCzytelnikow = libraryRepo.GetReaders();
-                        if(listaCzytelnikow.Count == 0)
+                        if (listaCzytelnikow.Count == 0)
                         {
                             Console.ForegroundColor = errorTextColor;
                             Console.WriteLine("Brak czytelników");
@@ -123,9 +123,9 @@ namespace Library_Project
                             Console.WriteLine($"{listaCzytelnikow[i].czytelnik_imie} {listaCzytelnikow[i].czytelnik_nazwisko} {listaCzytelnikow[i].czytelnik_adres} {listaCzytelnikow[i].czytelnik_pesel}");
                         }
                         break;
-                    #endregion
+                        #endregion
                     case 4:
-                    #region Wypozycz ksiazke
+                        #region Wypozycz ksiazke
                         Console.ForegroundColor = menuBookRentColor;
                         Console.WriteLine(menuBookRentBody);
                         komenda = Console.ReadLine();
@@ -144,7 +144,7 @@ namespace Library_Project
                             Console.WriteLine($"Czy chodzi o {ksiazki[nrKsiazki].GetInfo()}?\nT/N");
                             komenda = Console.ReadLine();
                             Console.ForegroundColor = generalTextColor;
-                            if (extraFunctions.IsAnswerTrue(komenda)) 
+                            if (extraFunctions.IsAnswerTrue(komenda))
                             {
                                 if (ksiazki[nrKsiazki].ilosc_ksiazek > 0)
                                 {
@@ -187,7 +187,7 @@ namespace Library_Project
                         break;
                         #endregion
                     case 5:
-                    #region Zwroc ksiazke
+                        #region Zwroc ksiazke
                         Console.ForegroundColor = questionTextColor;
                         string infoCzytelnik;
                         string infoKsiazka;
@@ -213,9 +213,9 @@ namespace Library_Project
                         Console.ForegroundColor = errorTextColor;
                         Console.WriteLine("Nie znaleziono takiego wypożyczenia");
                         break;
-                    #endregion 
+                        #endregion
                     case 6:
-                    #region Dodaj nowa ksiazke
+                        #region Dodaj nowa ksiazke
                         data.Ksiazki nowaKsiazka = new data.Ksiazki();
                         komenda = "n";
                         Console.ForegroundColor = menuAddBookColor;
@@ -227,7 +227,7 @@ namespace Library_Project
                         nowaKsiazka.autor_nazwisko = Console.ReadLine();
                         Console.WriteLine("ilość książek:");
                         int.TryParse(Console.ReadLine(), out int il);
-                        if (il <1)
+                        if (il < 1)
                         {
                             Console.ForegroundColor = errorTextColor;
                             Console.WriteLine("Ilość książek musi być większa niż 0");
@@ -257,9 +257,9 @@ namespace Library_Project
                             Console.WriteLine("Pomyślnie dodano książkę");
                         }
                         break;
-                    #endregion
+                        #endregion
                     case 7:
-                    #region Usun ksiazke
+                        #region Usun ksiazke
                         Console.ForegroundColor = questionTextColor;
                         Console.WriteLine("Podaj nazwę książki którą chcesz usunąć");
                         komenda = Console.ReadLine();
@@ -300,9 +300,9 @@ namespace Library_Project
                         Console.ForegroundColor = errorTextColor;
                         Console.WriteLine("Nie znaleziono więcej książek o tej nazwie");
                         break;
-                    #endregion
+                        #endregion
                     case 8:
-                    #region Dodaj czytelnika
+                        #region Dodaj czytelnika
                         data.Czytelnicy nowyCzytelnik = new data.Czytelnicy();
                         Regex regex = new Regex(peselRegex);
                         Console.ForegroundColor = menuAddReaderColor;
@@ -315,7 +315,7 @@ namespace Library_Project
                         Console.WriteLine("pesel:");
                         nowyCzytelnik.czytelnik_pesel = Console.ReadLine();
 
-                        if(!regex.IsMatch(nowyCzytelnik.czytelnik_pesel))
+                        if (!regex.IsMatch(nowyCzytelnik.czytelnik_pesel))
                         {
                             Console.WriteLine("Zły pesel");
                             break;
@@ -343,9 +343,9 @@ namespace Library_Project
                             Console.WriteLine("Pomyślnie dodano czytelnika");
                         }
                         break;
-                    #endregion
+                        #endregion
                     case 9:
-                    #region Usun czytelnika
+                        #region Usun czytelnika
                         Console.ForegroundColor = questionTextColor;
                         Console.WriteLine("Podaj imię / nazwisko czytelnika którego chcesz usunąć");
                         komenda = Console.ReadLine();
@@ -357,7 +357,7 @@ namespace Library_Project
                             Console.WriteLine("Nie znaleziono takiego czytelnika");
                             break;
                         }
-                        for(int nrCzytelnika = 0; nrCzytelnika < czytelnicyDoUsuniecia.Count; nrCzytelnika++)
+                        for (int nrCzytelnika = 0; nrCzytelnika < czytelnicyDoUsuniecia.Count; nrCzytelnika++)
                         {
                             Console.WriteLine($"Czy chodzi o {czytelnicyDoUsuniecia[nrCzytelnika].GetInfo()}?\nT/N");
                             komenda = Console.ReadLine();
@@ -385,7 +385,7 @@ namespace Library_Project
                         Console.ForegroundColor = errorTextColor;
                         Console.WriteLine("Nie znaleziono więcej czytelników");
                         break;
-                    #endregion
+                        #endregion
                     default:
                         break;
                 }
