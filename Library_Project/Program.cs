@@ -229,7 +229,7 @@ namespace Library_Project
                                 {
                                     libraryRepo.AddNewBook(nowaKsiazka);
                                 }
-                                catch (Exception ex)
+                                catch
                                 {
                                     Console.ForegroundColor = errorTextColor;
                                     Console.WriteLine("Wystąpił błąd przy dodawaniu książki");

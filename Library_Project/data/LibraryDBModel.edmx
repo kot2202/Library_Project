@@ -37,6 +37,22 @@
           <Property Name="data_ostatni_update" Type="smalldatetime" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'library_project.dbo.CzytelnicyView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CzytelnicyView">
+          <Key>
+            <PropertyRef Name="czytelnik_imie" />
+            <PropertyRef Name="czytelnik_nazwisko" />
+            <PropertyRef Name="czytelnik_adres" />
+            <PropertyRef Name="czytelnik_pesel" />
+            <PropertyRef Name="czytelnik_imie_nazwisko" />
+          </Key>
+          <Property Name="czytelnik_imie" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="czytelnik_nazwisko" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="czytelnik_adres" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="czytelnik_pesel" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="czytelnik_imie_nazwisko" Type="varchar" MaxLength="41" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'library_project.dbo.WypozyczeniaView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="WypozyczeniaView">
           <Key>
@@ -91,6 +107,15 @@ warning 6002: The table/view 'library_project.dbo.WypozyczeniaView' does not hav
           <EntitySet Name="Czytelnicy" EntityType="Self.Czytelnicy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ksiazki" EntityType="Self.Ksiazki" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Wypozyczenia" EntityType="Self.Wypozyczenia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CzytelnicyView" EntityType="Self.CzytelnicyView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CzytelnicyView].[czytelnik_imie] AS [czytelnik_imie], 
+    [CzytelnicyView].[czytelnik_nazwisko] AS [czytelnik_nazwisko], 
+    [CzytelnicyView].[czytelnik_adres] AS [czytelnik_adres], 
+    [CzytelnicyView].[czytelnik_pesel] AS [czytelnik_pesel], 
+    [CzytelnicyView].[czytelnik_imie_nazwisko] AS [czytelnik_imie_nazwisko]
+    FROM [dbo].[CzytelnicyView] AS [CzytelnicyView]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="WypozyczeniaView" EntityType="Self.WypozyczeniaView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [WypozyczeniaView].[id_wypozyczenia] AS [id_wypozyczenia], 
@@ -132,6 +157,7 @@ warning 6002: The table/view 'library_project.dbo.WypozyczeniaView' does not hav
             <End Role="Wypozyczenia" EntitySet="Wypozyczenia" />
           </AssociationSet>
           <EntitySet Name="WypozyczeniaView" EntityType="library_projectModel.WypozyczeniaView" />
+          <EntitySet Name="CzytelnicyView" EntityType="library_projectModel.CzytelnicyView" />
         </EntityContainer>
         <EntityType Name="Czytelnicy">
           <Key>
@@ -217,6 +243,20 @@ warning 6002: The table/view 'library_project.dbo.WypozyczeniaView' does not hav
           <Property Name="czytelnik_imie_nazwisko" Type="String" Nullable="false" MaxLength="41" FixedLength="false" Unicode="false" />
           <Property Name="id_wypozyczenia" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="CzytelnicyView">
+          <Key>
+            <PropertyRef Name="czytelnik_imie" />
+            <PropertyRef Name="czytelnik_nazwisko" />
+            <PropertyRef Name="czytelnik_adres" />
+            <PropertyRef Name="czytelnik_pesel" />
+            <PropertyRef Name="czytelnik_imie_nazwisko" />
+          </Key>
+          <Property Name="czytelnik_imie" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="czytelnik_nazwisko" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="czytelnik_adres" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="czytelnik_pesel" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="czytelnik_imie_nazwisko" Type="String" Nullable="false" MaxLength="41" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -268,6 +308,17 @@ warning 6002: The table/view 'library_project.dbo.WypozyczeniaView' does not hav
                 <ScalarProperty Name="aktywne" ColumnName="aktywne" />
                 <ScalarProperty Name="data_ostatni_update" ColumnName="data_ostatni_update" />
                 <ScalarProperty Name="data_wypozyczenia_od" ColumnName="data_wypozyczenia_od" />
+                <ScalarProperty Name="czytelnik_adres" ColumnName="czytelnik_adres" />
+                <ScalarProperty Name="czytelnik_nazwisko" ColumnName="czytelnik_nazwisko" />
+                <ScalarProperty Name="czytelnik_imie" ColumnName="czytelnik_imie" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CzytelnicyView">
+            <EntityTypeMapping TypeName="library_projectModel.CzytelnicyView">
+              <MappingFragment StoreEntitySet="CzytelnicyView">
+                <ScalarProperty Name="czytelnik_imie_nazwisko" ColumnName="czytelnik_imie_nazwisko" />
+                <ScalarProperty Name="czytelnik_pesel" ColumnName="czytelnik_pesel" />
                 <ScalarProperty Name="czytelnik_adres" ColumnName="czytelnik_adres" />
                 <ScalarProperty Name="czytelnik_nazwisko" ColumnName="czytelnik_nazwisko" />
                 <ScalarProperty Name="czytelnik_imie" ColumnName="czytelnik_imie" />

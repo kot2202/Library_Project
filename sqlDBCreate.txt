@@ -43,3 +43,9 @@ FROM Wypozyczenia as w
 INNER JOIN Czytelnicy as c on c.id_czytelnika=w.id_czytelnika
 INNER JOIN Ksiazki as k on k.id_ksiazki=w.id_ksiazki
 GO
+
+CREATE OR ALTER VIEW CzytelnicyView
+AS
+SELECT czytelnik_imie, czytelnik_nazwisko, czytelnik_adres, czytelnik_pesel, czytelnik_imie + ' ' + czytelnik_nazwisko AS czytelnik_imie_nazwisko
+FROM Czytelnicy
+GO

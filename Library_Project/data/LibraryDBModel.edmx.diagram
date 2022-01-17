@@ -11,6 +11,7 @@
         <AssociationConnector Association="library_projectModel.FK_Wypozyczenia_id_czytelnika" />
         <AssociationConnector Association="library_projectModel.FK_Wypozyczenia_id_ksiazki" />
         <EntityTypeShape EntityType="library_projectModel.WypozyczeniaView" Width="1.5" PointX="3.375" PointY="4.75" />
+        <EntityTypeShape EntityType="library_projectModel.CzytelnicyView" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
