@@ -22,9 +22,8 @@ namespace Library_Project
             ConsoleColor errorTextColor = ConsoleColor.Red;
             ConsoleColor questionTextColor = ConsoleColor.Yellow;
             ConsoleColor informationTextColor = ConsoleColor.Green;
-            Console.ForegroundColor = generalTextColor; // TODO: https://stackoverflow.com/a/34866857
+            Console.ForegroundColor = generalTextColor;
 
-                                            // TODO do zmiany kolejnosc
             const string menuLoopTextHead = "Wybierz opcję i zatwierdź przy użyciu <ENTER>\n";
             const string menuLoopTextBody = "1. Wyświetl stan książek\n" +
                                             "2. Wyświetl wypożyczenia\n" +
@@ -63,7 +62,7 @@ namespace Library_Project
             //////////////////////////////////////////////
             #endregion
 
-            Console.OutputEncoding = Encoding.UTF8; // Allows the usage of polish and other characters
+            Console.OutputEncoding = Encoding.UTF8; // Pozwala na polskie znaki
 
             //////////////////////////////////////////////
 
@@ -76,7 +75,6 @@ namespace Library_Project
                 Console.ForegroundColor = generalTextColor;
                 Console.WriteLine(menuLoopTextHead + menuLoopTextBody);
 
-                //wybor = Convert.ToUInt16(Console.ReadLine()); // wysypuje sie przy wpisaniu tekstu zamiast liczb
                 ushort.TryParse(Console.ReadLine(), out wybor); // nie wysypuje sie, zwraca 0 po wpisaniu tekstu
 
                 switch (wybor)
@@ -127,7 +125,6 @@ namespace Library_Project
                     #endregion
                     case 4:
                     #region Wypozycz ksiazke
-                        // TODO jakos zamknac to w metodzie
                         Console.ForegroundColor = menuBookRentColor;
                         Console.WriteLine(menuBookRentBody);
                         komenda = Console.ReadLine();
