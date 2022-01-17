@@ -25,5 +25,12 @@ namespace Library_Project.data
         public string autor_nazwisko { get; set; }
         public string czytelnik_imie_nazwisko { get; set; }
         public int id_wypozyczenia { get; set; }
+
+        public string GetInfo()
+        {
+            string info;
+            info = $"{czytelnik_imie_nazwisko} | {nazwa} {autor_nazwisko} {data_wypozyczenia_od}";
+            return info;
+        }
     }
 }

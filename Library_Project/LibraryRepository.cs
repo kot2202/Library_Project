@@ -26,14 +26,15 @@ namespace Library_Project
             }
         }
 
-        public List<data.Wypozyczenia> GetRents()
+        public List<data.WypozyczeniaView> GetRents()
         {
             using (var libraryDb = new data.library_projectEntities())
             {
-                List<data.Wypozyczenia> wypozyczenia = libraryDb.Wypozyczenia.Where(x => x.aktywne == 1).ToList(); // moze zwrocic pusta liste TODO obsluga wyjatkow
+                List<data.WypozyczeniaView> wypozyczeniaView = libraryDb.WypozyczeniaView.Where(x => x.aktywne == 1).ToList(); // moze zwrocic pusta liste TODO obsluga wyjatkow
+                List<data.Wypozyczenia> wypozyczenia = libraryDb.Wypozyczenia.Where(x => x.aktywne == 1).ToList(); // TODO zrobic cos z niepotrzebnym powtorzeniem
                 wypozyczenia.ForEach(x => x.data_ostatni_update = DateTime.Now);
                 libraryDb.SaveChanges();
-                return wypozyczenia;
+                return wypozyczeniaView;
 
             }
 
@@ -55,14 +56,19 @@ namespace Library_Project
             }
         }
 
-        private void ReduceBook(int idKsiazki)
+        /// <summary>
+        /// Zmienia stan książki
+        /// </summary>
+        /// <param name="idKsiazki"></param>
+        /// <param name="amount">Przyjmuje wartości pozytywne dla dodawania i negatywne dla odejmowania</param>
+        private void ModifyBookCount(int idKsiazki, int amount)
         {
             using (var libraryDb = new data.library_projectEntities())
             {
                 data.Ksiazki ksiazkaDoZredukowania = libraryDb.Ksiazki.SingleOrDefault(x => x.id_ksiazki == idKsiazki);
                 if (ksiazkaDoZredukowania != null)
                 {
-                    ksiazkaDoZredukowania.ilosc_ksiazek = ksiazkaDoZredukowania.ilosc_ksiazek - 1;
+                    ksiazkaDoZredukowania.ilosc_ksiazek = ksiazkaDoZredukowania.ilosc_ksiazek + amount;
                     libraryDb.SaveChanges();
                 }
             }
@@ -85,7 +91,7 @@ namespace Library_Project
 #if DEBUG
             Console.WriteLine($"ksiazka:{idKsiazki} czytelnik:{idCzytelnika}");
 #endif
-            ReduceBook(idKsiazki);
+            ModifyBookCount(idKsiazki, -1);
 
 
             data.Wypozyczenia noweWypozyczenie = new data.Wypozyczenia
@@ -122,6 +128,9 @@ namespace Library_Project
                 {
                     wypozyczenieDoSkonczenia.aktywne = 0;
                     wypozyczenieDoSkonczenia.data_ostatni_update = DateTime.Now;
+
+                    ModifyBookCount(wypozyczenieDoSkonczenia.id_ksiazki, 1);
+
                     libraryDb.SaveChanges();
                 }
             }

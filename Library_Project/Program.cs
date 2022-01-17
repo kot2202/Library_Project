@@ -96,7 +96,7 @@ namespace Library_Project
                     #region Stan wypozyczen
                         // TODO zrobic update wersje z nowym view
                         Console.WriteLine(menuShowRentsHead);
-                        List<data.Wypozyczenia> listaWypozyczen = libraryRepo.GetRents(); // moze zwrocic pusta liste TODO obsluga wyjatkow
+                        List<data.WypozyczeniaView> listaWypozyczen = libraryRepo.GetRents(); // moze zwrocic pusta liste TODO obsluga wyjatkow
                         if (listaWypozyczen.Count == 0)
                         {
                             Console.ForegroundColor = errorTextColor;
@@ -110,7 +110,7 @@ namespace Library_Project
                             if (roznicaDni > daysWithoutReturnWarningImportant) { Console.ForegroundColor = ConsoleColor.Red; }
                             else if (roznicaDni > daysWithoutReturnWarningMedium) { Console.ForegroundColor = ConsoleColor.Yellow; }
                             else { Console.ForegroundColor = ConsoleColor.Green; }
-                            Console.WriteLine($"{listaWypozyczen[i].id_czytelnika} {listaWypozyczen[i].id_ksiazki} {listaWypozyczen[i].data_wypozyczenia_od}");
+                            Console.WriteLine(listaWypozyczen[i].GetInfo());
                         }
                         break;
                     #endregion
@@ -224,44 +224,41 @@ namespace Library_Project
                     #region Dodaj nowa ksiazke
                         data.Ksiazki nowaKsiazka = new data.Ksiazki();
                         komenda = "n";
-                        while (komenda != "t")
+                        Console.ForegroundColor = menuAddBookColor;
+                        Console.WriteLine("Podaj nazwę książki którą chcesz dodać:");
+                        nowaKsiazka.nazwa = Console.ReadLine();
+                        Console.WriteLine("imię autora:");
+                        nowaKsiazka.autor_imie = Console.ReadLine();
+                        Console.WriteLine("nazwisko autora:");
+                        nowaKsiazka.autor_nazwisko = Console.ReadLine();
+                        Console.WriteLine("ilość książek:");
+                        int.TryParse(Console.ReadLine(), out int il);
+                        nowaKsiazka.ilosc_ksiazek = il;
+
+                        Console.WriteLine("Zweryfikuj poprawność:");
+                        Console.ForegroundColor = informationTextColor;
+                        Console.WriteLine(nowaKsiazka.GetInfo(0, 1));
+                        Console.ForegroundColor = menuAddBookColor;
+                        Console.WriteLine("Czy wygląda poprawnie?\nT/N");
+                        komenda = Console.ReadLine();
+                        if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase))
                         {
-                            Console.ForegroundColor = menuAddBookColor;
-                            Console.WriteLine("Podaj nazwę książki którą chcesz dodać:");
-                            nowaKsiazka.nazwa = Console.ReadLine();
-                            Console.WriteLine("imię autora:");
-                            nowaKsiazka.autor_imie = Console.ReadLine();
-                            Console.WriteLine("nazwisko autora:");
-                            nowaKsiazka.autor_nazwisko = Console.ReadLine();
-                            Console.WriteLine("ilość książek:");
-                            int.TryParse(Console.ReadLine(), out int il);
-                            nowaKsiazka.ilosc_ksiazek = il;
-
-                            Console.WriteLine("Zweryfikuj poprawność:");
-                            Console.ForegroundColor = informationTextColor;
-                            Console.WriteLine(nowaKsiazka.GetInfo(0, 1));
-                            Console.ForegroundColor = menuAddBookColor;
-                            Console.WriteLine("Czy wygląda poprawnie?\nT/N");
-                            komenda = Console.ReadLine();
-                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase))
+                            try
                             {
-                                try
-                                {
-                                    libraryRepo.AddNewBook(nowaKsiazka);
-                                }
-                                catch
-                                {
-                                    Console.ForegroundColor = errorTextColor;
-                                    Console.WriteLine("Wystąpił błąd przy dodawaniu książki");
-                                    break;
-                                }
-                                finally
-                                {
-                                    Console.ForegroundColor = informationTextColor;
-                                    Console.WriteLine("Pomyślnie dodano książkę");
-                                }
-
+                                libraryRepo.AddNewBook(nowaKsiazka);
                             }
+                            catch
+                            {
+                                Console.ForegroundColor = errorTextColor;
+                                Console.WriteLine("Wystąpił błąd przy dodawaniu książki");
+                                break;
+                            }
+                            finally
+                            {
+                                Console.ForegroundColor = informationTextColor;
+                                Console.WriteLine("Pomyślnie dodano książkę");
+                            }
+
                         }
                         break;
                     #endregion
