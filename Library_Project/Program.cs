@@ -97,7 +97,12 @@ namespace Library_Project
                         // TODO zrobic update wersje z nowym view
                         Console.WriteLine(menuShowRentsHead);
                         List<data.Wypozyczenia> listaWypozyczen = libraryRepo.GetRents(); // moze zwrocic pusta liste TODO obsluga wyjatkow
-                        for(int i = 0; i < listaWypozyczen.Count; i++)
+                        if (listaWypozyczen.Count == 0)
+                        {
+                            Console.ForegroundColor = errorTextColor;
+                            Console.WriteLine("Brak wypożyczeń");
+                        }
+                        for (int i = 0; i < listaWypozyczen.Count; i++)
                         {
                             double roznicaDni = (listaWypozyczen[i].data_wypozyczenia_od - DateTime.Now).TotalDays;
                             roznicaDni = Math.Abs(roznicaDni);  //Math.Abs bo zwraca wartosci ujemne dla starych dat
@@ -113,6 +118,11 @@ namespace Library_Project
                     #region Wyswietl czytelnikow
                         Console.ForegroundColor = menuShowReadersColor;
                         List<data.Czytelnicy> listaCzytelnikow = libraryRepo.GetReaders();
+                        if(listaCzytelnikow.Count == 0)
+                        {
+                            Console.ForegroundColor = errorTextColor;
+                            Console.WriteLine("Brak czytelników");
+                        }
                         for (int i = 0; i < listaCzytelnikow.Count; i++)
                         {
                             Console.WriteLine($"{listaCzytelnikow[i].czytelnik_imie} {listaCzytelnikow[i].czytelnik_nazwisko} {listaCzytelnikow[i].czytelnik_adres} {listaCzytelnikow[i].czytelnik_pesel}");
