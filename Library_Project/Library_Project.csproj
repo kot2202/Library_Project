@@ -55,6 +55,9 @@
     <Compile Include="data\Czytelnicy.cs">
       <DependentUpon>LibraryDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="data\CzytelnicyView.cs">
+      <DependentUpon>LibraryDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="data\Ksiazki.cs">
       <DependentUpon>LibraryDBModel.tt</DependentUpon>
     </Compile>

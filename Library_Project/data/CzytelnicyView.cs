@@ -19,5 +19,16 @@ namespace Library_Project.data
         public string czytelnik_adres { get; set; }
         public string czytelnik_pesel { get; set; }
         public string czytelnik_imie_nazwisko { get; set; }
+        public int id_czytelnika { get; set; }
+
+        /// <summary>
+        /// Zwraca pelne info o czytelniku
+        /// </summary>
+        public string GetInfo()
+        {
+            string info = string.Empty;
+            info = $"{czytelnik_imie_nazwisko} {czytelnik_adres} {czytelnik_pesel}";
+            return info;
+        }
     }
 }

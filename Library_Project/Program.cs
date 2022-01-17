@@ -326,7 +326,7 @@ namespace Library_Project
                                 {
                                     libraryRepo.AddNewReader(nowyCzytelnik);
                                 }
-                                catch (Exception ex)
+                                catch
                                 {
                                     Console.ForegroundColor = errorTextColor;
                                     Console.WriteLine("Wystąpił błąd przy dodawaniu czytelnika");
@@ -365,7 +365,7 @@ namespace Library_Project
                                 {
                                     libraryRepo.TryToDeleteReader(czytelnicyDoUsuniecia[nrCzytelnika].id_czytelnika);
                                 }
-                                catch (Exception ex) // problem przy updatowaniu bazy
+                                catch
                                 {
                                     Console.ForegroundColor = errorTextColor;
                                     Console.WriteLine("Błąd usuwania, ten czytelnik prawdopodobnie nie oddał wypożyczonej książki");

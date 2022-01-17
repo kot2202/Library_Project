@@ -39,12 +39,11 @@ namespace Library_Project
 
         }
 
-        public List<data.Czytelnicy>GetReadersWithName(string readerInfo)
+        public List<data.CzytelnicyView>GetReadersWithName(string readerInfo)
         {
             using (var libraryDb = new data.library_projectEntities())
             {
-                return libraryDb.Czytelnicy.Where(x => x.czytelnik_imie.Contains(readerInfo)
-                                                    || x.czytelnik_nazwisko.Contains(readerInfo)).ToList(); // TODO zrobic widok z laczonym imieniem nazwiskiem
+                return libraryDb.CzytelnicyView.Where(x => x.czytelnik_imie_nazwisko.Contains(readerInfo)).ToList();
             }
         }
 
