@@ -44,7 +44,7 @@ namespace Library_Project
             using (var libraryDb = new data.library_projectEntities())
             {
                 return libraryDb.Czytelnicy.Where(x => x.czytelnik_imie.Contains(readerInfo)
-                                                    || x.czytelnik_nazwisko.Contains(readerInfo)).ToList();
+                                                    || x.czytelnik_nazwisko.Contains(readerInfo)).ToList(); // TODO zrobic widok z laczonym imieniem nazwiskiem
             }
         }
 
@@ -151,6 +151,15 @@ namespace Library_Project
             using (var libraryDb = new data.library_projectEntities())
             {
                 libraryDb.Czytelnicy.Add(nowyCzytelnik); // TODO dodac obsluge wyjatkow, uzytkownik mogl naklepac wiecej znakow niz pozwala kolumna
+                libraryDb.SaveChanges();
+            }
+        }
+
+        internal void TryToDeleteReader(int id_czytelnika)
+        {
+            using (var libraryDb = new data.library_projectEntities())
+            {
+                libraryDb.Czytelnicy.Remove(libraryDb.Czytelnicy.Find(id_czytelnika));
                 libraryDb.SaveChanges();
             }
         }

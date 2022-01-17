@@ -252,6 +252,12 @@ namespace Library_Project
                         komenda = Console.ReadLine();
                         var ksiazkiDoUsuniecia = libraryRepo.GetBooksWithName(komenda);
 
+                        if(ksiazkiDoUsuniecia.Count == 0)
+                        {
+                            Console.ForegroundColor = errorTextColor;
+                            Console.WriteLine("Nie znaleziono takiej książki");
+                            break;
+                        }
                         for (int nrKsiazki = 0; nrKsiazki < ksiazkiDoUsuniecia.Count; nrKsiazki++)
                         {
                             Console.ForegroundColor = questionTextColor;
@@ -275,10 +281,11 @@ namespace Library_Project
                                     Console.ForegroundColor = informationTextColor;
                                     Console.WriteLine("Pomyślnie usunięto książkę");
                                 }
+                                goto default; // uzywanie goto to ostatecznosc
                             }
                         }
                         Console.ForegroundColor = errorTextColor;
-                        Console.WriteLine("Nie znaleziono takiego wypożyczenia");
+                        Console.WriteLine("Nie znaleziono więcej książek o tej nazwie");
                         break;
                     #endregion
                     case 7:
@@ -335,7 +342,47 @@ namespace Library_Project
                         break;
                     #endregion
                     case 9:
-                        throw new NotImplementedException();
+                    #region Usun czytelnika
+                        Console.ForegroundColor = questionTextColor;
+                        Console.WriteLine("Podaj imię / nazwisko czytelnika którego chcesz usunąć");
+                        komenda = Console.ReadLine();
+                        var czytelnicyDoUsuniecia = libraryRepo.GetReadersWithName(komenda);
+
+                        if (czytelnicyDoUsuniecia.Count == 0)
+                        {
+                            Console.ForegroundColor = errorTextColor;
+                            Console.WriteLine("Nie znaleziono takiego czytelnika");
+                            break;
+                        }
+                        for(int nrCzytelnika = 0; nrCzytelnika < czytelnicyDoUsuniecia.Count; nrCzytelnika++)
+                        {
+                            Console.WriteLine($"Czy chodzi o {czytelnicyDoUsuniecia[nrCzytelnika].GetInfo()}?\nT/N"); // TODO dodac slownik odpowiedzi (t,tak,y,yes)
+                            komenda = Console.ReadLine();
+                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase)) // pozwala na wpisywanie duzych i malych liter
+                            {
+                                // TODO zrobic wiecej testow do tego
+                                try
+                                {
+                                    libraryRepo.TryToDeleteReader(czytelnicyDoUsuniecia[nrCzytelnika].id_czytelnika);
+                                }
+                                catch (Exception ex) // problem przy updatowaniu bazy
+                                {
+                                    Console.ForegroundColor = errorTextColor;
+                                    Console.WriteLine("Błąd usuwania, ten czytelnik prawdopodobnie nie oddał wypożyczonej książki");
+                                    goto default; // uzywanie goto to ostatecznosc
+                                }
+                                finally
+                                {
+                                    Console.ForegroundColor = informationTextColor;
+                                    Console.WriteLine("Pomyślnie usunięto czytelnika");
+                                }
+                                goto default; // uzywanie goto to ostatecznosc
+                            }
+                        }
+                        Console.ForegroundColor = errorTextColor;
+                        Console.WriteLine("Nie znaleziono więcej czytelników");
+                        break;
+                    #endregion
                     default:
                         break;
                 }
