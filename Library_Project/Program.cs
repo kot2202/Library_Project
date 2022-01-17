@@ -52,8 +52,11 @@ namespace Library_Project
             /// Add Book Menu ///
             ConsoleColor menuAddBookColor = questionTextColor;
 
-            // Show Readers Menu //
+            /// Show Readers Menu ///
             ConsoleColor menuShowReadersColor = ConsoleColor.Blue;
+
+            /// Add Reader Menu ///
+            ConsoleColor menuAddReaderColor = ConsoleColor.Blue;
 
             //////////////////////////////////////////////
             #endregion
@@ -274,7 +277,48 @@ namespace Library_Project
                         break;
                     #endregion
                     case 8:
-                        throw new NotImplementedException();
+                    #region Dodaj czytelnika
+                        data.Czytelnicy nowyCzytelnik = new data.Czytelnicy();
+                        komenda = "n";
+                        while (komenda != "t")
+                        {
+                            Console.ForegroundColor = menuAddReaderColor;
+                            Console.WriteLine("Podaj imię czytelnika, którego chcesz dodać");
+                            nowyCzytelnik.czytelnik_imie = Console.ReadLine();
+                            Console.WriteLine("nazwisko:");
+                            nowyCzytelnik.czytelnik_nazwisko = Console.ReadLine();
+                            Console.WriteLine("adres:");
+                            nowyCzytelnik.czytelnik_adres = Console.ReadLine();
+                            Console.WriteLine("pesel:");
+                            nowyCzytelnik.czytelnik_pesel = Console.ReadLine();
+
+                            Console.WriteLine("Zweryfikuj poprawność:");
+                            Console.ForegroundColor = informationTextColor;
+                            Console.WriteLine(nowyCzytelnik.GetInfo());
+                            Console.ForegroundColor = questionTextColor;
+                            Console.WriteLine("Czy wygląda poprawnie?\nT/N");
+                            komenda = Console.ReadLine();
+                            if (String.Equals(komenda, "t", StringComparison.OrdinalIgnoreCase))
+                            {
+                                try
+                                {
+                                    libraryRepo.AddNewReader(nowyCzytelnik);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.ForegroundColor = errorTextColor;
+                                    Console.WriteLine("Wystąpił błąd przy dodawaniu czytelnika");
+                                    break;
+                                }
+                                finally
+                                {
+                                    Console.ForegroundColor = informationTextColor;
+                                    Console.WriteLine("Pomyślnie dodano czytelnika");
+                                }
+                            }
+                        }
+                        break;
+                    #endregion
                     case 9:
                         throw new NotImplementedException();
                     default:

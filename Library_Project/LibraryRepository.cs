@@ -145,5 +145,14 @@ namespace Library_Project
                 return libraryDb.Czytelnicy.ToList();
             }
         }
+
+        public void AddNewReader(data.Czytelnicy nowyCzytelnik)
+        {
+            using (var libraryDb = new data.library_projectEntities())
+            {
+                libraryDb.Czytelnicy.Add(nowyCzytelnik); // TODO dodac obsluge wyjatkow, uzytkownik mogl naklepac wiecej znakow niz pozwala kolumna
+                libraryDb.SaveChanges();
+            }
+        }
     }
 }
