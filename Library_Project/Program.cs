@@ -173,6 +173,8 @@ namespace Library_Project
                                                 if (extraFunctions.IsAnswerTrue(komenda)) // dobry czytelnik, dobra ksiazka wczytujemy ich id
                                                 {
                                                     libraryRepo.RentBook(ksiazki[nrKsiazki].id_ksiazki, czytelnicy[nrCzytelnika].id_czytelnika);
+                                                    Console.ForegroundColor = informationTextColor;
+                                                    Console.WriteLine("Wypożyczono książkę");
                                                 }
                                             }
                                         }
