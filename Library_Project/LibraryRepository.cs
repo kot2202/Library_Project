@@ -12,14 +12,19 @@ namespace Library_Project
         {
             using (var libraryDb = new data.library_projectEntities())
             {
-                return libraryDb.Ksiazki.ToList(); // moze zwrocic pusta liste TODO obsluga wyjatkow
+                return libraryDb.Ksiazki.ToList();
             }
         }
 
-        // moze zamiast tej metody robic petle bezposrednio w program
+        // mozna zamiast tej metody robic petle bezposrednio w program
         public void ShowBooks()
         {
             var aktualnaListaKsiazek = GetBooks();
+            if( aktualnaListaKsiazek.Count == 0)
+            {
+                Console.WriteLine("Brak książek");
+                return;
+            }
             for (int i = 0; i < aktualnaListaKsiazek.Count; i++)
             {
                 Console.WriteLine($"{aktualnaListaKsiazek[i].GetInfo(1)}");
@@ -31,7 +36,7 @@ namespace Library_Project
             using (var libraryDb = new data.library_projectEntities())
             {
                 List<data.WypozyczeniaView> wypozyczeniaView = libraryDb.WypozyczeniaView.Where(x => x.aktywne == 1).ToList();
-                List<data.Wypozyczenia> wypozyczenia = libraryDb.Wypozyczenia.Where(x => x.aktywne == 1).ToList(); // TODO zrobic cos z niepotrzebnym powtorzeniem
+                List<data.Wypozyczenia> wypozyczenia = libraryDb.Wypozyczenia.Where(x => x.aktywne == 1).ToList(); // widok jest read only
                 wypozyczenia.ForEach(x => x.data_ostatni_update = DateTime.Now);
                 libraryDb.SaveChanges();
                 return wypozyczeniaView;

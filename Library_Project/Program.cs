@@ -191,7 +191,7 @@ namespace Library_Project
                         Console.ForegroundColor = questionTextColor;
                         string infoCzytelnik;
                         string infoKsiazka;
-                        Console.WriteLine("Podaj imie / nazwisko czytelnika"); // TODO przypisac te 2 teksty do zmiennych w settings
+                        Console.WriteLine("Podaj imie / nazwisko czytelnika");
                         infoCzytelnik = Console.ReadLine();
 
                         Console.WriteLine("Podaj nazwę książki do zwrotu");
@@ -202,12 +202,12 @@ namespace Library_Project
                         {
                             Console.WriteLine($"Czy chodzi o {listaWypozyczenDoZwrotu[i].czytelnik_imie_nazwisko} {listaWypozyczenDoZwrotu[i].nazwa} {listaWypozyczenDoZwrotu[i].autor_nazwisko} Data wyp: {listaWypozyczenDoZwrotu[i].data_wypozyczenia_od}\nT/N");
                             komenda = Console.ReadLine();
-                            if (extraFunctions.IsAnswerTrue(komenda)) // pozwala na wpisywanie duzych i malych liter
+                            if (extraFunctions.IsAnswerTrue(komenda))
                             {
                                 libraryRepo.ReturnBook(listaWypozyczenDoZwrotu[i].id_wypozyczenia);
                                 Console.ForegroundColor = informationTextColor;
                                 Console.WriteLine("Zwrócono książkę.");
-                                goto default; // goto to ostatecznosc
+                                goto default; // używanie goto to ostatecznosc
                             }
                         }
                         Console.ForegroundColor = errorTextColor;
@@ -278,7 +278,6 @@ namespace Library_Project
                             komenda = Console.ReadLine();
                             if (extraFunctions.IsAnswerTrue(komenda))
                             {
-                                // TODO zrobic wiecej testow do tego
                                 try
                                 {
                                     libraryRepo.TryToDeleteBook(ksiazkiDoUsuniecia[nrKsiazki].id_ksiazki);
@@ -363,7 +362,6 @@ namespace Library_Project
                             komenda = Console.ReadLine();
                             if (extraFunctions.IsAnswerTrue(komenda))
                             {
-                                // TODO zrobic wiecej testow do tego
                                 try
                                 {
                                     libraryRepo.TryToDeleteReader(czytelnicyDoUsuniecia[nrCzytelnika].id_czytelnika);
@@ -374,11 +372,8 @@ namespace Library_Project
                                     Console.WriteLine("Błąd usuwania, ten czytelnik prawdopodobnie nie oddał wypożyczonej książki");
                                     goto default; // uzywanie goto to ostatecznosc
                                 }
-                                finally
-                                {
-                                    Console.ForegroundColor = informationTextColor;
-                                    Console.WriteLine("Pomyślnie usunięto czytelnika");
-                                }
+                                Console.ForegroundColor = informationTextColor;
+                                Console.WriteLine("Pomyślnie usunięto czytelnika");
                                 goto default; // uzywanie goto to ostatecznosc
                             }
                         }
