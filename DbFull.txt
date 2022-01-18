@@ -1,0 +1,76 @@
+CREATE DATABASE library_project COLLATE POLISH_CI_AI
+GO
+USE library_project
+
+CREATE TABLE [Czytelnicy] (
+  [id_czytelnika] int IDENTITY(1,1) NOT NULL,
+  [czytelnik_imie] varchar(20) NOT NULL,
+  [czytelnik_nazwisko] varchar(20) NOT NULL,
+  [czytelnik_adres] varchar(50) NOT NULL,
+  [czytelnik_pesel] varchar(11) NOT NULL,
+  PRIMARY KEY ([id_czytelnika])
+);
+
+CREATE TABLE [Ksiazki] (
+  [id_ksiazki] int IDENTITY(1,1) NOT NULL,
+  [nazwa] varchar(50) NOT NULL,
+  [autor_imie] varchar(20) NOT NULL,
+  [autor_nazwisko] varchar(20) NOT NULL,
+  [ilosc_ksiazek] int NOT NULL,
+  PRIMARY KEY ([id_ksiazki])
+);
+
+CREATE TABLE [Wypozyczenia] (
+  [id_wypozyczenia] int IDENTITY(1,1) NOT NULL,
+  [id_czytelnika] int NOT NULL,
+  [id_ksiazki] int NOT NULL,
+  [aktywne] int NOT NULL,
+  [data_wypozyczenia_od] smalldatetime NOT NULL,
+  [data_ostatni_update] smalldatetime,
+  PRIMARY KEY ([id_wypozyczenia]),
+  CONSTRAINT [FK_Wypozyczenia.id_czytelnika]
+    FOREIGN KEY ([id_czytelnika])
+      REFERENCES [Czytelnicy]([id_czytelnika]),
+  CONSTRAINT [FK_Wypozyczenia.id_ksiazki]
+    FOREIGN KEY ([id_ksiazki])
+      REFERENCES [Ksiazki]([id_ksiazki])
+);
+GO
+
+CREATE OR ALTER VIEW WypozyczeniaView
+AS
+SELECT id_wypozyczenia, czytelnik_imie, czytelnik_nazwisko, czytelnik_imie + ' ' + czytelnik_nazwisko as czytelnik_imie_nazwisko, czytelnik_adres, data_wypozyczenia_od, data_ostatni_update, aktywne, nazwa, autor_imie, autor_nazwisko
+FROM Wypozyczenia as w
+INNER JOIN Czytelnicy as c on c.id_czytelnika=w.id_czytelnika
+INNER JOIN Ksiazki as k on k.id_ksiazki=w.id_ksiazki
+GO
+
+CREATE OR ALTER VIEW CzytelnicyView
+AS
+SELECT id_czytelnika, czytelnik_imie, czytelnik_nazwisko, czytelnik_adres, czytelnik_pesel, czytelnik_imie + ' ' + czytelnik_nazwisko AS czytelnik_imie_nazwisko
+FROM Czytelnicy
+GO
+
+insert into Ksiazki values('Pan Tadeusz','Adam','Mickiewicz','5')
+insert into Ksiazki values('Potop','Henryk','Sienkiewicz','7')
+insert into Ksiazki values('Krzyżacy','Henryk','Sienkiewicz','3')
+insert into Ksiazki values('Komu bije dzwon','Ernest','Hemingway','5')
+insert into Ksiazki values('Rok 1984','George','Orwell','9')
+insert into Ksiazki values('Proces','Franz','Kafka','6')
+insert into Ksiazki values('Zabić drozda','Lee','Harper','1')
+
+insert into Czytelnicy values(N'Adam', N'Nowak', N'AdresNowak', N'11111111111')
+insert into Czytelnicy values(N'Jan', N'Kowalski', N'KowalskiAdres', N'22222222222')
+insert into Czytelnicy values(N'Jakub', N'Woś ', N'Trzebownisko', N'12345678912')
+insert into Czytelnicy values(N'Adrian', N'Smagała', N'Dębica', N'98765432198')
+insert into Czytelnicy values(N'Ludwik', N'Mazurek', N'Rzeszów', N'36741954385')
+insert into Czytelnicy values(N'Jacek', N'Jasiński', N'Baranówka', N'78179426112')
+insert into Czytelnicy values(N'Radosław', N'Kwiatkowski', N'Warszawa', N'68356513224')
+insert into Czytelnicy values(N'Filip', N'Marciniak', N'Grzegorzówka', N'05728751744')
+insert into Czytelnicy values(N'Bolesław ', N'Baran', N'3 maja', N'00144653221')
+
+insert into Wypozyczenia values(3,2,1,'2021-12-16','2022-01-02')
+insert into Wypozyczenia values(1,3,1,'2022-01-02','2022-01-02')
+insert into Wypozyczenia values(2,5,1,'2022-01-10','2022-01-02')
+insert into Wypozyczenia values(6,4,1,'2022-01-16','2022-01-02')
+insert into Wypozyczenia values(7,4,1,'2022-01-17','2022-01-02')
