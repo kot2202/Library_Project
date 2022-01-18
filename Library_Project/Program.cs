@@ -57,7 +57,8 @@ namespace Library_Project
 
             /// Add Reader Menu ///
             ConsoleColor menuAddReaderColor = ConsoleColor.Blue;
-            string peselRegex = "^\\d{11}$";
+            const string imienazwiskoRegexFormat = "[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+$";
+            const string peselRegexFormat = "^\\d{11}$";
 
             //////////////////////////////////////////////
             #endregion
@@ -303,19 +304,29 @@ namespace Library_Project
                     case 8:
                         #region Dodaj czytelnika
                         data.Czytelnicy nowyCzytelnik = new data.Czytelnicy();
-                        Regex regex = new Regex(peselRegex);
+                        Regex peselRegex = new Regex(peselRegexFormat);
+                        Regex imienazwiskoRegex = new Regex(imienazwiskoRegexFormat);
+
                         Console.ForegroundColor = menuAddReaderColor;
                         Console.WriteLine("Podaj imię czytelnika, którego chcesz dodać");
                         nowyCzytelnik.czytelnik_imie = Console.ReadLine();
                         Console.WriteLine("nazwisko:");
                         nowyCzytelnik.czytelnik_nazwisko = Console.ReadLine();
+
+                        if(!imienazwiskoRegex.IsMatch(nowyCzytelnik.czytelnik_imie) || !imienazwiskoRegex.IsMatch(nowyCzytelnik.czytelnik_nazwisko))
+                        {
+                            Console.ForegroundColor = errorTextColor;
+                            Console.WriteLine("Imie i nazwisko muszą składać się z samych liter");
+                            break;
+                        }
                         Console.WriteLine("adres:");
                         nowyCzytelnik.czytelnik_adres = Console.ReadLine();
                         Console.WriteLine("pesel:");
                         nowyCzytelnik.czytelnik_pesel = Console.ReadLine();
 
-                        if (!regex.IsMatch(nowyCzytelnik.czytelnik_pesel))
+                        if (!peselRegex.IsMatch(nowyCzytelnik.czytelnik_pesel))
                         {
+                            Console.ForegroundColor = errorTextColor;
                             Console.WriteLine("Zły pesel");
                             break;
                         }
