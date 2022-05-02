@@ -1,2 +1,2 @@
 # Library_Project
-Library project made in c#
+Console library book renting system project made in c#
